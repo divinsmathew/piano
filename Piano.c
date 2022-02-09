@@ -14,10 +14,10 @@ int m, s, s1, s2, s3, s4, s5, s6, s7, s8;
 void main()
 {
     FILE *sa1, *sa2, *sa3, *sa4, *sa5;
-    int r, y, y2, y3, sss, c, i, tt, ft, fc, pr, sc, t, j, ff = 0;
-    void sounddef(int), player(char), sig(void), bod(void), menu(int), recplayer(char), fplay(void);
-    char opt, o, op, so, a[1000], rec[100];
-    textcolor(GREEN);
+    int r, y, y2, y3, y4, sss, c, i, tt, ft, fc, pr, sc, t, j, ff, sy, sys;
+    void sounddef(int), player(char), sig(void), bod(void), menu(int), recplayer(char), fplay(void), naam(char[20][5], int);
+    char opt, o, op, so, a[1000], rec[100], nam[20][5];
+    textcolor(BROWN);
     clrscr();
     /* for(sc=0,pr=0;pr<=100;pr+=sc,sc+=2)
      {
@@ -39,6 +39,7 @@ defaul:
     m = 100;
     s = 200;
     y = 9;
+    sy = -1;
 menu:
     clrscr();
     menu(1);
@@ -91,14 +92,69 @@ menu:
         clrscr();
         gotoxy(1, 1);
         bod();
-        gotoxy(15, 12);
-        memset(rec, 0, 100);
-        printf("Enter REC CODE:\t");
-        scanf("%d", &j);
-        switch (j)
+        if (sy == -1)
         {
+        fof:
+            gotoxy(10, 10);
+            printf("No Recordings Available!! Press Any Key To Return.");
+            getch();
+            goto menu;
+        }
+        memset(rec, 0, 100);
+        naam(nam, sy);
+        switch (sy)
+        {
+        case 0:
+            sys = 9;
+            break;
         case 1:
-            sa1 = fopen("sa1.pi", "r");
+            sys = 11;
+            break;
+        case 2:
+            sys = 13;
+            break;
+        case 3:
+            sys = 15;
+            break;
+        case 4:
+            sys = 17;
+            break;
+        default:
+            goto fof;
+        }
+        gotoxy(54, 9);
+        printf("%c", 174);
+        for (y4 = 9;;)
+        {
+            if (kbhit())
+            {
+                opt = getch();
+                if (opt == DOWNARR && y4 != sys)
+                {
+                    clrscr();
+                    naam(nam, sy);
+                    y4 += 2;
+                    gotoxy(54, y4);
+                    printf("%c", 174);
+                }
+                if (opt == UPARR && y4 != 9)
+                {
+                    clrscr();
+                    naam(nam, sy);
+                    y4 -= 2;
+                    gotoxy(54, y4);
+                    printf("%c", 174);
+                }
+                if (tolower(opt) == 'b')
+                    goto menu;
+                if (opt == 13)
+                    break;
+            }
+        }
+        switch (y4)
+        {
+        case 9:
+            sa1 = fopen(nam[0], "r");
             flushall();
             fscanf(sa1, "%s", rec);
             fclose(sa1);
@@ -107,8 +163,8 @@ menu:
             for (fc = 0; fc < strlen(rec); fc++)
                 recplayer(rec[fc]);
             goto play;
-        case 2:
-            sa2 = fopen("sa2.pi", "r");
+        case 11:
+            sa2 = fopen(nam[1], "r");
             flushall();
             fscanf(sa2, "%s", rec);
             fclose(sa2);
@@ -117,8 +173,8 @@ menu:
             for (fc = 0; fc < strlen(rec); fc++)
                 recplayer(rec[fc]);
             goto play;
-        case 3:
-            sa3 = fopen("sa3.pi", "r");
+        case 13:
+            sa3 = fopen(nam[2], "r");
             flushall();
             fscanf(sa3, "%s", rec);
             fclose(sa3);
@@ -127,8 +183,8 @@ menu:
             for (fc = 0; fc < strlen(rec); fc++)
                 recplayer(rec[fc]);
             goto play;
-        case 4:
-            sa4 = fopen("sa4.pi", "r");
+        case 15:
+            sa4 = fopen(nam[3], "r");
             flushall();
             fscanf(sa4, "%s", rec);
             fclose(sa4);
@@ -137,8 +193,8 @@ menu:
             for (fc = 0; fc < strlen(rec); fc++)
                 recplayer(rec[fc]);
             goto play;
-        case 5:
-            sa5 = fopen("sa5.pi", "r");
+        case 17:
+            sa5 = fopen(nam[4], "r");
             flushall();
             fscanf(sa5, "%s", rec);
             fclose(sa5);
@@ -147,8 +203,6 @@ menu:
             for (fc = 0; fc < strlen(rec); fc++)
                 recplayer(rec[fc]);
             goto play;
-        default:
-            exit(0);
         }
     }
     if (opt == 99)
@@ -243,62 +297,28 @@ smu:
     if (opt == 99) /*Shold Never Occur, Just to prevent malfunctoning of GOTO*/
     {
     reco:
-        ff++;
-        switch (ff)
+        gotoxy(24, 23);
+        if (sy < 4)
         {
-        case 1:
-            sa1 = fopen("sa1.pi", "w");
+            printf("Enter A Name: ");
+            scanf("%s", nam[++sy]);
+            gotoxy(24, 76);
+            sa1 = fopen(nam[sy], "w");
             fprintf(sa1, "%s", a);
             fclose(sa1);
-            gotoxy(31, 23);
-            printf("Succesfully Saved!");
-            sleep(1);
-            delline();
-            goto smu;
-        case 2:
-            sa2 = fopen("sa2.pi", "w");
-            fprintf(sa2, "%s", a);
-            fclose(sa2);
-            gotoxy(31, 23);
-            printf("Succesfully Saved!");
-            sleep(1);
-            delline();
-            goto smu;
-        case 3:
-            sa3 = fopen("sa3.pi", "w");
-            fprintf(sa3, "%s", a);
-            fclose(sa3);
-            gotoxy(31, 23);
-            printf("Succesfully Saved!");
-            sleep(1);
-            delline();
-            goto smu;
-        case 4:
-            sa4 = fopen("sa4.pi", "w");
-            fprintf(sa4, "%s", a);
-            fclose(sa4);
-            gotoxy(31, 23);
-            printf("Succesfully Saved!");
-            sleep(1);
-            delline();
-            goto smu;
-        case 5:
-            sa5 = fopen("sa5.pi", "w");
-            fprintf(sa5, "%s", a);
-            fclose(sa5);
-            gotoxy(31, 23);
-            printf("Succesfully Saved!");
-            sleep(1);
-            delline();
-            goto smu;
-        default:
-            gotoxy(31, 23);
-            printf("LIMIT OF 5 REACHED!!");
+            gotoxy(23, 23);
+            printf("         Succesfully Saved!");
             sleep(1);
             delline();
             goto smu;
         }
+        else
+            gotoxy(27, 23);
+        printf("Limit Of 5 Reached!!");
+        sleep(1);
+        goto smu;
     }
+
     if (opt == 99) /*Shold Never Occur, Just to prevent malfunctoning of GOTO*/
     {
     settings:
@@ -634,6 +654,22 @@ void fplay(void)
 {
     clrscr();
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t%c %c Playing....... %c %c\n", 14, 14, 14, 14);
+    gotoxy(1, 1);
+    bod();
+}
+void naam(char nam[20][5], int sy)
+{
+    int j, i;
+    gotoxy(13, 3);
+    printf("\t\t\tYour Recordings");
+    gotoxy(32, 22);
+    printf("Press B to Go Back.");
+    gotoxy(20, 9);
+    for (j = 0, i = 11; j <= sy; j++, i += 2)
+    {
+        printf("%s", nam[j]);
+        gotoxy(20, i);
+    }
     gotoxy(1, 1);
     bod();
 }
