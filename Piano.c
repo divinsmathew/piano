@@ -14,20 +14,156 @@
 #define RIGHTARR 77
 int m, s, s1, s2, s3, s4, s5, s6, s7, s8, color, decolor;
 char type[50];
-void main()
+void main(void)
 {
     FILE *sa1, *sa2, *sa3, *sa4, *sa5, *per1, *per2, *per3;
-    int gm, l, r, y, y2, y3, y4, y5, y6, y7, sss, c, i, tt, ft, fc, pr, sc, t, j, ff, sy, sys, in, cou, n, em, am, iy, null, colset[3];
-    void sounddef(int), player(char), sig(void), eff(void), bod(int), menu(int), recplayer(char), fplay(void), naam(char[5][50], int), nemu(char[50]);
+    int d, gm, l, r, y, y2, y3, y4, y5, y6, y7, sss, c, i, tt, ft, fc, pr, sc, t, j, ff, sy, sys, in, cou, n, em, am, iy, null, colset[3];
+    void sounddef(int), player(char), sig(void), eff(void), bod(int), menu(int), recplayer(char), fplay(void);
+    void dor(void), naam(char[5][50], int), nemu(char[50]);
     char opt, o, op, so, a[1000], rec[1000], nam[5][50], temp[50][50], newn[50], te[50];
     if ((access("sta1.pi", 00) || access("sta2.pi", 00) || access("sta3.pi", 00)))
     {
-        printf("first run");
-        sy = -1;
-        color = 4;
-        decolor = 6;
         textbackground(WHITE);
+        textcolor(BLACK);
+        clrscr();
+        printf("\n\n\t\t    WELCOME TO THE SETUP OF PIANO by Divins.\n\t\t   ككككككككككككككككككككككككككككككككككككككككك \n\n\n\t   This Setup Will Install PIANO by Divins on your computer.\n\n\n\n");
+        bod(BLACK);
+        for (i = 2;; i++)
+        {
+            gotoxy(27, 15);
+            if (i % 2 == 0)
+                printf("PRESS ANY KEY TO CONTINUE");
+            else
+                printf("                         ");
+            delay(300);
+            if (kbhit())
+                break;
+        }
+        gotoxy(27, 15);
+        printf("                         ");
+
+        for (i = 00; i < 101; i++)
+        {
+            gotoxy(21, 17);
+            printf("Installation In Progress........%d%", i);
+            delay(50);
+        }
+        clrscr();
+        gotoxy(17, 7);
+        printf(" Piano Is Successfully Installed On Your System.\n\t\tكككككككككككككككككككككككككككككككككككككككككككككككك \n\n\n\n\t Setup Will Now Guid You Through The First Time Run-Configurations.\n\n\t Please Select Your Preferences. You Also Can Change Them \n\n\t Manually After The Setup.");
+        bod(BLACK);
         getch();
+        for (i = 2;; i++)
+        {
+            gotoxy(27, 21);
+            if (i % 2 == 0)
+                printf("PRESS ANY KEY TO CONTINUE");
+            else
+                printf("                         ");
+            delay(300);
+            if (kbhit())
+            {
+                getch();
+                break;
+            }
+        }
+        clrscr();
+        textbackground(WHITE);
+        for (d = 0; d < 3; d++)
+        {
+            clrscr();
+            switch (d)
+            {
+            case 2:
+                strcpy(type, "Background");
+                break;
+            case 1:
+                strcpy(type, "Text");
+                break;
+            case 0:
+                strcpy(type, "Border");
+                break;
+            }
+            y7 = 6;
+            menu(5);
+            gotoxy(50, y7);
+            printf("%c", 174);
+            for (;;)
+            {
+                if (kbhit())
+                {
+                    op = getch();
+                    if (op == DOWNARR && y7 != 22)
+                    {
+                        clrscr();
+                        menu(5);
+                        y7 += 2;
+                        gotoxy(50, y7);
+                        printf("%c", 174);
+                    }
+                    if (op == UPARR && y7 != 6)
+                    {
+                        clrscr();
+                        menu(5);
+                        y7 -= 2;
+                        gotoxy(50, y7);
+                        printf("%c", 174);
+                    }
+                    if (op == 13)
+                        break;
+                }
+            }
+            switch (y7)
+            {
+            case 6:
+                colset[d] = 0;
+                break;
+            case 8:
+                colset[d] = 1;
+                break;
+            case 10:
+                colset[d] = 2;
+                break;
+            case 12:
+                colset[d] = 3;
+                break;
+            case 14:
+                colset[d] = 4;
+                break;
+            case 16:
+                colset[d] = 5;
+                break;
+            case 18:
+                colset[d] = 6;
+                break;
+            case 20:
+                colset[d] = 14;
+                break;
+            case 22:
+                colset[d] = 15;
+                break;
+            }
+        }
+        per1 = fopen("sta1.pi", "w");
+        fprintf(per1, "-1");
+        fclose(per1);
+        per2 = fopen("sta2.pi", "w");
+        fclose(per2);
+        per3 = fopen("sta3.pi", "w");
+        for (i = 0; i < 3; i++)
+            fprintf(per3, "%d ", colset[i]);
+        fclose(per3);
+        eff();
+        clrscr();
+        gotoxy(35, 3);
+        printf("SUCCESS!");
+        gotoxy(34, 4);
+        printf("كككككككككك\n\n\n\n\n\n\n\n\t\tPiano Has Been Successfully Installed On Your System\n\n\t\tPlease Restart This Application To Continue.\n\n\n\n\n\t\tProgramme Will Close Now. ");
+        bod(BLACK);
+        getch();
+        system("exit");
+        system("exit");
+        exit(0);
     }
     else
     {
@@ -50,7 +186,8 @@ void main()
 defaul:
     s = 200;
     m = 100;
-    y = y3 = y4 = y5 = 9;
+    y = 13;
+    y3 = y4 = y5 = 9;
     y2 = 11;
     y6 = 10;
     y7 = 6;
@@ -82,7 +219,7 @@ menu:
         if (kbhit())
         {
             opt = getch();
-            if (opt == DOWNARR && y != 17)
+            if (opt == DOWNARR && y != 21)
             {
                 clrscr();
                 menu(1);
@@ -90,7 +227,7 @@ menu:
                 gotoxy(54, y);
                 printf("%c", 174);
             }
-            if (opt == UPARR && y != 9)
+            if (opt == UPARR && y != 13)
             {
                 clrscr();
                 menu(1);
@@ -104,15 +241,15 @@ menu:
     }
     switch (y)
     {
-    case 9:
-        goto piano;
-    case 11:
-        goto settings;
     case 13:
-        goto again;
+        goto piano;
     case 15:
-        goto play;
+        goto settings;
     case 17:
+        goto again;
+    case 19:
+        goto play;
+    case 21:
         goto exit;
     }
     if (opt == 99) /*Shold Never Occur, Just to prevent malfunctoning of GOTO*/
@@ -1184,10 +1321,7 @@ smu:
                 printf("(%d)", i);
                 sleep(1);
             }
-            clrscr();
-            textcolor(WHITE);
-            textbackground(BLACK);
-            printf("\n  TYPE IN 'exit' TO EXIT\n\n\n");
+            system("exit");
             exit(0);
         }
         else if (toupper(so) == 'N')
@@ -1296,24 +1430,24 @@ void bod(int color)
     int i;
     textcolor(color);
     gotoxy(1, 1);
-    cprintf("É");
+    cprintf("ة");
     for (i = 0; i < 77; i++)
-        cprintf("Í");
+        cprintf("ح");
     cprintf("»");
     for (i = 2; i < 25; i++)
     {
         gotoxy(1, i);
-        cprintf("º");
+        cprintf("؛");
     }
     gotoxy(1, i);
-    cprintf("È");
+    cprintf("ب");
     for (i = 0; i < 77; i++)
-        cprintf("Í");
+        cprintf("ح");
     cprintf("¼");
     for (i = 2; i < 25; i++)
     {
         gotoxy(79, i);
-        cprintf("º");
+        cprintf("؛");
     }
     /* THE BOUNDARY IS DRAWN */
     textcolor(decolor);
@@ -1324,8 +1458,149 @@ void menu(int o)
     switch (o)
     {
     case 1:
-        printf("\n\n\n\n\n\n\n\n\t\t\t Start Piano.\n\n\t\t\t Change Settings.\n\n\t\t\t Enter Recording Mode.\n\n\t\t\t Play Saved Recording.\n\n\t\t\t Exit.");
-        bod(color);
+        gotoxy(25, 2);
+        printf(" _____");
+        gotoxy(25, 3);
+        printf("|     \\\n");
+        gotoxy(25, 4);
+        printf("| (_)  ]\n");
+        gotoxy(25, 5);
+        printf("|  ___/\n");
+        gotoxy(25, 6);
+        printf("| |(_) __ _   _ __   ___\n");
+        gotoxy(25, 7);
+        printf("| || |/ _` \\ | `_ \\ /   \\ \n");
+        gotoxy(25, 8);
+        printf("| || | (_| | | | | | (_) )_\n");
+        gotoxy(25, 9);
+        printf("|_||_|\\__,_| |_| |_|\\___/(_)\n");
+        gotoxy(1, 1);
+        printf("\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t Start Piano.\n\n\t\t\t Change Settings.\n\n\t\t\t Enter Recording Mode.\n\n\t\t\t Play Saved Recording.\n\n\t\t\t Exit.");
+        textcolor(color);
+        gotoxy(1, 1);
+        cprintf("ة");
+        for (i = 0; i < 77; i++)
+        {
+            if (i == 8 || i == 16 || i == 57 || i == 65)
+                cprintf("%c", 203);
+            else
+                cprintf("ح");
+        }
+        cprintf("»");
+        gotoxy(2, 11);
+        for (i = 0; i < 77; i++)
+        {
+            if (i == 8 || i == 16 || i == 57 || i == 65)
+                cprintf("%c", 458);
+            else
+                cprintf("ح");
+        }
+        gotoxy(10, 2);
+        cprintf("ب");
+        cprintf("ح");
+        cprintf("»");
+        for (i = 3; i < 10; i++)
+        {
+            gotoxy(12, i);
+            cprintf("؛");
+        }
+        gotoxy(12, i);
+        cprintf("¼");
+        gotoxy(11, i);
+        cprintf("ح");
+        gotoxy(10, i);
+        cprintf("ة");
+        gotoxy(18, 2);
+        cprintf("¼");
+        gotoxy(17, 2);
+        cprintf("ح");
+        gotoxy(16, 2);
+        cprintf("ة");
+        for (i = 3; i < 10; i++)
+        {
+            gotoxy(16, i);
+            cprintf("؛");
+        }
+        gotoxy(16, i);
+        cprintf("ب");
+        cprintf("ح");
+        cprintf("»");
+        for (i = 2; i < 25; i++)
+        {
+            gotoxy(1, i);
+            if (i == 11)
+                cprintf("%c", 204);
+            else
+                cprintf("؛");
+        }
+        gotoxy(1, i);
+        cprintf("ب");
+        for (i = 0; i < 77; i++)
+            cprintf("ح");
+        cprintf("¼");
+        for (i = 2; i < 25; i++)
+        {
+            gotoxy(79, i);
+            if (i == 11)
+                cprintf("%c", 185);
+            else
+                cprintf("؛");
+        }
+        gotoxy(59, 2);
+        cprintf("ب");
+        cprintf("ح");
+        cprintf("»");
+        for (i = 3; i < 10; i++)
+        {
+            gotoxy(61, i);
+            cprintf("؛");
+        }
+        gotoxy(61, i);
+        cprintf("¼");
+        gotoxy(60, i);
+        cprintf("ح");
+        gotoxy(59, i);
+        cprintf("ة");
+        gotoxy(67, 2);
+        cprintf("¼");
+        gotoxy(66, 2);
+        cprintf("ح");
+        gotoxy(65, 2);
+        cprintf("ة");
+        for (i = 3; i < 10; i++)
+        {
+            gotoxy(65, i);
+            cprintf("؛");
+        }
+        gotoxy(65, i);
+        cprintf("ب");
+        cprintf("ح");
+        cprintf("»");
+        for (i = 2; i < 25; i++)
+        {
+            gotoxy(1, i);
+            if (i == 11)
+                cprintf("%c", 204);
+            else
+                cprintf("؛");
+        }
+        gotoxy(1, i);
+        cprintf("ب");
+        for (i = 0; i < 77; i++)
+            cprintf("ح");
+        cprintf("¼");
+        for (i = 2; i < 25; i++)
+        {
+            gotoxy(79, i);
+            if (i == 11)
+                cprintf("%c", 185);
+            else
+                cprintf("؛");
+        }
+        for (i = 0; i < 35; i++)
+            cprintf("ح");
+        /* THE BOUNDARY IS DRAWN */
+        textcolor(decolor);
         break;
     case 2:
         printf("\n\n\n\n\n\n\n\n\t\t\t Change Sound-Time Manipulation.\n\n\t\t\t Change Frquency Settings.\n\n\t\t\t Change Appearences.\n\n\t\t\t Restore Settings.\n\n\t\t\t Go Back.");
@@ -1343,7 +1618,7 @@ void menu(int o)
         printf("\n\t\t\t  Select Your %s Color.", type);
         gotoxy(27, 3);
         for (i = 0; i < strlen(type) + 19; i++)
-            printf("ß");
+            printf("ك");
         gotoxy(23, 6);
         textcolor(BLACK);
         cprintf("BLACK");
@@ -1455,7 +1730,7 @@ void naam(char nam[5][50], int sy)
     gotoxy(32, 3);
     printf("Your Recordings:-");
     gotoxy(32, 4);
-    printf("ßßßßßßßßßßßßßßßßß");
+    printf("ككككككككككككككككك");
     gotoxy(32, 23);
     printf("Press B to Go Back.");
     gotoxy(23, 9);
@@ -1475,7 +1750,7 @@ void nemu(char nam[50])
     puts(nam);
     gotoxy(l + 1, 4);
     for (i = 0; i < strlen(nam); i++)
-        printf("ß");
+        printf("ك");
     gotoxy(26, 9);
     printf("Play This Recording.\n\n\t\t\t Rename This Recording.\n\n\t\t\t Delete This Recording.\n\n\t\t\t Go Back.");
     gotoxy(1, 1);
