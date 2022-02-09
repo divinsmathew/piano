@@ -19,22 +19,22 @@ void main()
     char opt, o, op, so, a[1000], rec[100];
     textcolor(GREEN);
     clrscr();
-    /* for(sc=0,pr=0;pr<=100;pr+=sc,sc+=2)
-     {
-      bod();
-      if(sc>19)
-       pr=100;
-      gotoxy(5,12);
-      printf("\t\t\t    LOADING PIANO.....%d%\n",pr);
-      if(sc>19)
-       break;
-      sig();
-      if(pr==100)
-       break;
-     }
-     gotoxy(31,18);
-     printf("  PRESS ENTER!");
-     getch();   */
+    for (sc = 0, pr = 0; pr <= 100; pr += sc, sc += 2)
+    {
+        bod();
+        if (sc > 19)
+            pr = 100;
+        gotoxy(5, 12);
+        printf("\t\t\t    LOADING PIANO.....%d%\n", pr);
+        if (sc > 19)
+            break;
+        sig();
+        if (pr == 100)
+            break;
+    }
+    gotoxy(31, 18);
+    printf("  PRESS ENTER!");
+    getch();
 defaul:
     m = 100;
     s = 200;
@@ -102,11 +102,8 @@ again:
     for (i = 0;;)
     {
         o = getch();
-        if (o == 13 || o == 'a' || o == 's' || o == 'd' || o == 'f' || o == 'g' || o == 'h' || o == 'j' || o == 'k' || o == 'l' || o == 'A' || o == 'S' || o == 'D' || o == 'F' || o == 'G' || o == 'H' || o == 'J' || o == 'K' || o == 'L')
-        {
-            a[i] = o;
-            i++;
-        }
+        if (o == 'a' || o == 's' || o == 'd' || o == 'f' || o == 'g' || o == 'h' || o == 'j' || o == 'k' || o == 'l' || o == 'A' || o == 'S' || o == 'D' || o == 'F' || o == 'G' || o == 'H' || o == 'J' || o == 'K' || o == 'L')
+            a[i++] = o;
         player(o);
         if (o == 13)
             break;
@@ -150,7 +147,7 @@ smu:
         if (kbhit())
         {
             so = getch();
-            if (so == DOWNARR && y != 17)
+            if (so == DOWNARR && y2 < 17)
             {
                 clrscr();
                 menu(3);
@@ -158,7 +155,7 @@ smu:
                 y2 += 2;
                 printf("%c", 174);
             }
-            if (so == UPARR && y != 11)
+            if (so == UPARR && y2 > 11)
             {
                 clrscr();
                 menu(3);
@@ -212,7 +209,7 @@ smu:
                     y3 += 2;
                     printf("%c", 174);
                 }
-                if (op == UPARR && y != 9)
+                if (op == UPARR && y3 != 9)
                 {
                     clrscr();
                     menu(2);
@@ -301,7 +298,7 @@ smu:
             printf("\n\n\n\n\n\n\n\n\n\n\t\t\t\t     Bye\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\tBy Divins.");
             gotoxy(1, 1);
             bod();
-            for (i = -1; i != -1; i--)
+            for (i = -3; i != -1; i--)
             {
                 gotoxy(44, 11);
                 printf("(%d)", i);
