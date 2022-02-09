@@ -590,7 +590,6 @@ menu:
                             delay(10);
                             beep(1000, 100);
                             sleep(1);
-                            y4 -= 2;
                         }
                     }
                     for (cou = 0, in = 0; cou <= sy; cou++)
@@ -3500,3 +3499,4 @@ void eff(void)
             delay(150);
         }
     }
+}
