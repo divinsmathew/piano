@@ -14,7 +14,7 @@ int m, s, s1, s2, s3, s4, s5, s6, s7, s8;
 void main()
 {
     FILE *save;
-    int r, y, sss, c, i, tt, ft, fc, pr, sc, t;
+    int r, y, y2, y3, sss, c, i, tt, ft, fc, pr, sc, t;
     void sounddef(int), player(char), sig(void), bod(void), menu(int), recplayer(char);
     char opt, o, op, so, a[1000], rec[100];
     textcolor(GREEN);
@@ -38,13 +38,16 @@ void main()
 defaul:
     m = 100;
     s = 200;
+    y = 9;
 menu:
     clrscr();
     menu(1);
-    gotoxy(54, 9);
+    if (y != 9)
+        gotoxy(54, y);
+    else
+        gotoxy(54, 9);
     printf("%c", 174);
-
-    for (y = 9;;)
+    for (;;)
     {
         if (kbhit())
         {
@@ -78,14 +81,15 @@ menu:
     case 13:
         goto again;
     case 15:
+        memset(rec, 0, 100);
         save = fopen("sav.pi", "r");
         flushall();
         fscanf(save, "%s", rec);
         fclose(save);
         sounddef(s);
-        for (fc = 0; fc < strlen(rec); fc++)
+        for (fc = 0; fc < strlen(rec) - 1; fc++)
             recplayer(rec[fc]);
-        exit(0);
+        goto menu;
     case 17:
         goto exit;
     }
@@ -132,12 +136,12 @@ replay:
     bod();
     for (t = 0; t <= i; t++)
         recplayer(a[t]);
-    y = 11;
+    y2 = 11;
 smu:
     clrscr();
     menu(3);
-    if (y != 11)
-        gotoxy(54, y);
+    if (y2 != 11)
+        gotoxy(54, y2);
     else
         gotoxy(54, 11);
     printf("%c", 174);
@@ -150,23 +154,23 @@ smu:
             {
                 clrscr();
                 menu(3);
-                gotoxy(54, y + 2);
-                y += 2;
+                gotoxy(54, y2 + 2);
+                y2 += 2;
                 printf("%c", 174);
             }
             if (so == UPARR && y != 11)
             {
                 clrscr();
                 menu(3);
-                gotoxy(54, y - 2);
-                y -= 2;
+                gotoxy(54, y2 - 2);
+                y2 -= 2;
                 printf("%c", 174);
             }
             if (so == 13)
                 break;
         }
     }
-    switch (y)
+    switch (y2)
     {
     case 11:
         goto replay;
@@ -195,32 +199,32 @@ smu:
         menu(2);
         gotoxy(54, 9);
         printf("%c", 174);
-        for (y = 9;;)
+        for (y3 = 9;;)
         {
             if (kbhit())
             {
                 op = getch();
-                if (op == DOWNARR && y != 15)
+                if (op == DOWNARR && y3 != 15)
                 {
                     clrscr();
                     menu(2);
-                    gotoxy(54, y + 2);
-                    y += 2;
+                    gotoxy(54, y3 + 2);
+                    y3 += 2;
                     printf("%c", 174);
                 }
                 if (op == UPARR && y != 9)
                 {
                     clrscr();
                     menu(2);
-                    gotoxy(54, y - 2);
-                    y -= 2;
+                    gotoxy(54, y3 - 2);
+                    y3 -= 2;
                     printf("%c", 174);
                 }
                 if (op == 13)
                     break;
             }
         }
-        switch (y)
+        switch (y3)
         {
         case 9:
             clrscr();
@@ -436,7 +440,7 @@ void menu(int o)
     switch (o)
     {
     case 1:
-        printf("\n\n\n\n\n\n\n\n\t\t\t Start Piano.\n\n\t\t\t Change Beep Settings.\n\n\t\t\t Enter Recording Mode.\n\n\t\t\t Play Saved Recordong.\n\n\t\t\t Exit.");
+        printf("\n\n\n\n\n\n\n\n\t\t\t Start Piano.\n\n\t\t\t Change Beep Settings.\n\n\t\t\t Enter Recording Mode.\n\n\t\t\t Play Saved Recording.\n\n\t\t\t Exit.");
         gotoxy(1, 1);
         bod();
         break;
