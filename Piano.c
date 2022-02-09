@@ -13,9 +13,10 @@
 int m, s, s1, s2, s3, s4, s5, s6, s7, s8;
 void main()
 {
-    int r, y, sss, c, i, tt, ft, pr, sc, t = 0;
-    void sounddef(int), player(char), sig(void), bod(void), menu(int);
-    char opt, o, op, so, a[1000];
+    FILE *save;
+    int r, y, sss, c, i, tt, ft, fc, pr, sc, t;
+    void sounddef(int), player(char), sig(void), bod(void), menu(int), recplayer(char);
+    char opt, o, op, so, a[1000], rec[100];
     textcolor(GREEN);
     clrscr();
     /* for(sc=0,pr=0;pr<=100;pr+=sc,sc+=2)
@@ -33,7 +34,7 @@ void main()
      }
      gotoxy(31,18);
      printf("  PRESS ENTER!");
-     getch();      */
+     getch();   */
 defaul:
     m = 100;
     s = 200;
@@ -41,20 +42,20 @@ menu:
     clrscr();
     menu(1);
     gotoxy(54, 9);
-    printf("%c", 36);
+    printf("%c", 174);
 
     for (y = 9;;)
     {
         if (kbhit())
         {
             opt = getch();
-            if (opt == DOWNARR && y != 15)
+            if (opt == DOWNARR && y != 17)
             {
                 clrscr();
                 menu(1);
                 gotoxy(54, y + 2);
                 y += 2;
-                printf("%c", 36);
+                printf("%c", 174);
             }
             if (opt == UPARR && y != 9)
             {
@@ -62,7 +63,7 @@ menu:
                 menu(1);
                 gotoxy(54, y - 2);
                 y -= 2;
-                printf("%c", 36);
+                printf("%c", 174);
             }
             if (opt == 13)
                 break;
@@ -77,24 +78,33 @@ menu:
     case 13:
         goto again;
     case 15:
+        save = fopen("sav.pi", "r");
+        flushall();
+        fscanf(save, "%s", rec);
+        fclose(save);
+        sounddef(s);
+        for (fc = 0; fc < strlen(rec); fc++)
+            recplayer(rec[fc]);
+        exit(0);
+    case 17:
         goto exit;
     }
 again:
     clrscr();
     sounddef(s);
-    printf("\n\n\t     \t Piano is On Recording Mode!\n\n\t You Can Play Piano Using Keyboard Keys From A-L.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t Once completed Press T To Stop Recording.");
+    printf("\n\n\t\t\t   Piano is On Recording Mode!\n\n\n\t\t You Can Play Piano Using Keyboard Keys From A-L.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t\t Once completed Press Enter To Stop Recording.");
     gotoxy(1, 1);
     bod();
-    for (i = 0;; t++)
+    for (i = 0;;)
     {
         o = getch();
-        if (o == 'a' || o == 's' || o == 'd' || o == 'f' || o == 'g' || o == 'h' || o == 'j' || o == 'k' || o == 'l' || o == 'A' || o == 'S' || o == 'D' || o == 'F' || o == 'G' || o == 'H' || o == 'J' || o == 'K' || o == 'L')
+        if (o == 13 || o == 'a' || o == 's' || o == 'd' || o == 'f' || o == 'g' || o == 'h' || o == 'j' || o == 'k' || o == 'l' || o == 'A' || o == 'S' || o == 'D' || o == 'F' || o == 'G' || o == 'H' || o == 'J' || o == 'K' || o == 'L')
         {
             a[i] = o;
             i++;
         }
         player(o);
-        if (o == 't' || o == 'T')
+        if (o == 13)
             break;
     }
     if (i == 0)
@@ -120,102 +130,71 @@ replay:
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t%c %c Playing....... %c %c\n", 14, 14, 14, 14);
     gotoxy(1, 1);
     bod();
-    for (i = 0;; i++)
-    {
-
-        if (a[i] == 'a' || a[i] == 'A')
-        {
-            sound(s);
-            delay(m);
-            nosound();
-            delay(100);
-        }
-        if (a[i] == 's' || a[i] == 'S')
-        {
-            sound(s1);
-            delay(m);
-            nosound();
-            delay(100);
-        }
-        if (a[i] == 'd' || a[i] == 'D')
-        {
-            sound(s2);
-            delay(m);
-            nosound();
-            delay(100);
-        }
-        if (a[i] == 'f' || a[i] == 'F')
-        {
-            sound(s3);
-            delay(m);
-            nosound();
-            delay(100);
-        }
-        if (a[i] == 'g' || a[i] == 'G')
-        {
-            sound(s4);
-            delay(m);
-            nosound();
-            delay(100);
-        }
-        if (a[i] == 'h' || a[i] == 'H')
-        {
-            sound(s5);
-            delay(m);
-            nosound();
-            delay(100);
-        }
-        if (a[i] == 'j' || a[i] == 'J')
-        {
-            sound(s6);
-            delay(m);
-            nosound();
-            delay(100);
-        }
-        if (a[i] == 'k' || a[i] == 'K')
-        {
-            sound(s7);
-            delay(m);
-            nosound();
-            delay(100);
-        }
-        if (a[i] == 'l' || a[i] == 'L')
-        {
-            sound(s8);
-            delay(m);
-            nosound();
-            delay(100);
-        }
-        if (i == t)
-            break;
-    }
+    for (t = 0; t <= i; t++)
+        recplayer(a[t]);
+    y = 11;
+smu:
     clrscr();
-    printf("\n\n\n\n\t\t\t\t  Clip Completed.\n\n\n\n\n\t\tEnter R To Here It Again.\n\n\t\tEnter B to Return To Menu.\n\n\t\tEnter Q To Exit.\n");
-    gotoxy(1, 1);
-    bod();
-    so = getch();
-    if (so == 'q' || so == 'Q')
+    menu(3);
+    if (y != 11)
+        gotoxy(54, y);
+    else
+        gotoxy(54, 11);
+    printf("%c", 174);
+    for (;;)
     {
+        if (kbhit())
+        {
+            so = getch();
+            if (so == DOWNARR && y != 17)
+            {
+                clrscr();
+                menu(3);
+                gotoxy(54, y + 2);
+                y += 2;
+                printf("%c", 174);
+            }
+            if (so == UPARR && y != 11)
+            {
+                clrscr();
+                menu(3);
+                gotoxy(54, y - 2);
+                y -= 2;
+                printf("%c", 174);
+            }
+            if (so == 13)
+                break;
+        }
+    }
+    switch (y)
+    {
+    case 11:
+        goto replay;
+    case 13:
+        save = fopen("sav.pi", "w");
+        fprintf(save, "%s", a);
+        fclose(save);
+        gotoxy(31, 23);
+        printf("Succesfully Saved!");
+        sleep(1);
+        delline();
+        goto smu;
+    case 15:
+        i = 0;
+        memset(a, 0, 1000);
+        goto menu;
+    case 17:
         i = 0;
         memset(a, 0, 1000);
         goto exit;
     }
-    if (tolower(so) == 'r')
-        goto replay;
-    if ((so != 'q' || so != 'Q') || (so != 'r' || so != 'R'))
-    {
-        i = 0;
-        memset(a, 0, 1000);
-        goto menu;
-    }
-
     if (opt == 99) /*Shold Never Occur, Just to prevent malfunctoning of GOTO*/
     {
     settings:
         clrscr();
         menu(2);
         gotoxy(54, 9);
-        printf("%c", 36);
+        printf("%c", 174);
         for (y = 9;;)
         {
             if (kbhit())
@@ -227,7 +206,7 @@ replay:
                     menu(2);
                     gotoxy(54, y + 2);
                     y += 2;
-                    printf("%c", 36);
+                    printf("%c", 174);
                 }
                 if (op == UPARR && y != 9)
                 {
@@ -235,7 +214,7 @@ replay:
                     menu(2);
                     gotoxy(54, y - 2);
                     y -= 2;
-                    printf("%c", 36);
+                    printf("%c", 174);
                 }
                 if (op == 13)
                     break;
@@ -318,7 +297,7 @@ replay:
             printf("\n\n\n\n\n\n\n\n\n\n\t\t\t\t     Bye\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\tBy Divins.");
             gotoxy(1, 1);
             bod();
-            for (i = 3; i != -1; i--)
+            for (i = -1; i != -1; i--)
             {
                 gotoxy(44, 11);
                 printf("(%d)", i);
@@ -457,7 +436,7 @@ void menu(int o)
     switch (o)
     {
     case 1:
-        printf("\n\n\n\n\n\n\n\n\t\t\t Start Piano.\n\n\t\t\t Change Beep Settings.\n\n\t\t\t Enter Recording Mode.\n\n\t\t\t Exit.");
+        printf("\n\n\n\n\n\n\n\n\t\t\t Start Piano.\n\n\t\t\t Change Beep Settings.\n\n\t\t\t Enter Recording Mode.\n\n\t\t\t Play Saved Recordong.\n\n\t\t\t Exit.");
         gotoxy(1, 1);
         bod();
         break;
@@ -466,5 +445,77 @@ void menu(int o)
         gotoxy(1, 1);
         bod();
         break;
+    case 3:
+        printf("\n\n\n\n\t\t\t\t  Clip Completed.\n\n\n\n\n\n\t\t\t    Here It Again.\n\n\t\t\t    Save This Recording.\n\n\t\t\t    Return To Menu.\n\n\t\t\t    Exit.\n");
+        gotoxy(1, 1);
+        bod();
+    }
+}
+void recplayer(char a)
+{
+    int i;
+
+    if (a == 'a' || a == 'A')
+    {
+        sound(s);
+        delay(m);
+        nosound();
+        delay(100);
+    }
+    if (a == 's' || a == 'S')
+    {
+        sound(s1);
+        delay(m);
+        nosound();
+        delay(100);
+    }
+    if (a == 'd' || a == 'D')
+    {
+        sound(s2);
+        delay(m);
+        nosound();
+        delay(100);
+    }
+    if (a == 'f' || a == 'F')
+    {
+        sound(s3);
+        delay(m);
+        nosound();
+        delay(100);
+    }
+    if (a == 'g' || a == 'G')
+    {
+        sound(s4);
+        delay(m);
+        nosound();
+        delay(100);
+    }
+    if (a == 'h' || a == 'H')
+    {
+        sound(s5);
+        delay(m);
+        nosound();
+        delay(100);
+    }
+    if (a == 'j' || a == 'J')
+    {
+        sound(s6);
+        delay(m);
+        nosound();
+        delay(100);
+    }
+    if (a == 'k' || a == 'K')
+    {
+        sound(s7);
+        delay(m);
+        nosound();
+        delay(100);
+    }
+    if (a == 'l' || a == 'L')
+    {
+        sound(s8);
+        delay(m);
+        nosound();
+        delay(100);
     }
 }
