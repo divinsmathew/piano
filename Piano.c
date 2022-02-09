@@ -14,32 +14,32 @@ int m, s, s1, s2, s3, s4, s5, s6, s7, s8;
 void main()
 {
     int r, y, sss, c, i, tt, ft, pr, sc, t = 0;
-    void sounddef(int), player(char), sig(void), bod(void), menu(void);
+    void sounddef(int), player(char), sig(void), bod(void), menu(int);
     char opt, o, op, so, a[1000];
     textcolor(GREEN);
     clrscr();
-    for (sc = 0, pr = 0; pr <= 100; pr += sc, sc += 2)
-    {
-        bod();
-        if (sc > 19)
-            pr = 100;
-        gotoxy(5, 12);
-        printf("\t\t\t    LOADING PIANO.....%d%\n", pr);
-        if (sc > 19)
-            break;
-        sig();
-        if (pr == 100)
-            break;
-    }
-    gotoxy(31, 18);
-    printf("  PRESS ENTER!");
-    getch();
+    /* for(sc=0,pr=0;pr<=100;pr+=sc,sc+=2)
+     {
+      bod();
+      if(sc>19)
+       pr=100;
+      gotoxy(5,12);
+      printf("\t\t\t    LOADING PIANO.....%d%\n",pr);
+      if(sc>19)
+       break;
+      sig();
+      if(pr==100)
+       break;
+     }
+     gotoxy(31,18);
+     printf("  PRESS ENTER!");
+     getch();      */
 defaul:
     m = 100;
     s = 200;
 menu:
     clrscr();
-    menu();
+    menu(1);
     gotoxy(54, 9);
     printf("%c", 36);
 
@@ -51,7 +51,7 @@ menu:
             if (opt == DOWNARR && y != 15)
             {
                 clrscr();
-                menu();
+                menu(1);
                 gotoxy(54, y + 2);
                 y += 2;
                 printf("%c", 36);
@@ -59,7 +59,7 @@ menu:
             if (opt == UPARR && y != 9)
             {
                 clrscr();
-                menu();
+                menu(1);
                 gotoxy(54, y - 2);
                 y -= 2;
                 printf("%c", 36);
@@ -209,18 +209,41 @@ replay:
         goto menu;
     }
 
-    if (opt == 99) /*Shold Never Occur, Just to prevent malfunctoning og GOTO*/
+    if (opt == 99) /*Shold Never Occur, Just to prevent malfunctoning of GOTO*/
     {
     settings:
         clrscr();
-        printf("\n\n\tEnter N to Change Time Seconds\n\n\tEnter V to Change Frquenzy Settins\n\n\tEnter R to Reset Default Settings.\n\n\tPress B to Go Back.");
-        gotoxy(1, 1);
-        bod();
-        op = getch();
-        if (tolower(op) == 'b')
-            goto menu;
-        if (op == 'N' || op == 'n')
+        menu(2);
+        gotoxy(54, 9);
+        printf("%c", 36);
+        for (y = 9;;)
         {
+            if (kbhit())
+            {
+                op = getch();
+                if (op == DOWNARR && y != 15)
+                {
+                    clrscr();
+                    menu(2);
+                    gotoxy(54, y + 2);
+                    y += 2;
+                    printf("%c", 36);
+                }
+                if (op == UPARR && y != 9)
+                {
+                    clrscr();
+                    menu(2);
+                    gotoxy(54, y - 2);
+                    y -= 2;
+                    printf("%c", 36);
+                }
+                if (op == 13)
+                    break;
+            }
+        }
+        switch (y)
+        {
+        case 9:
             clrscr();
             printf("\tCurrent beep time in millisecond is %d.\n\n\n\tPlease Enter the time in millisecond to change it.\n\n\n\tNOTE:[1s=1000ms].\n\n\n\t", m);
             gotoxy(1, 1);
@@ -234,9 +257,7 @@ replay:
             bod();
             getch();
             goto menu;
-        }
-        if (op == 'V' || op == 'v')
-        {
+        case 11:
             clrscr();
             printf("\n\n\n\n\n\tCurrent Staring Frequency Is %d.\n\n\n\tPlease Enter The New One : \t", s);
             gotoxy(1, 1);
@@ -249,27 +270,23 @@ replay:
             bod();
             getch();
             goto menu;
-        }
-        if (op == 'r' || op == 'R')
-        {
-            gotoxy(7, 10);
+        case 13:
+            gotoxy(20, 17);
             printf("\tRESTORING");
-            for (c = 0; c <= 10; c++)
+            for (c = 0; c <= 12; c++)
             {
                 printf(".");
-                delay(150);
+                delay(250);
             }
-            printf("\n\n\n\n\tSuccessfully Restored To Default Settings.\n\n\tPress Enter To Return.\n");
+            printf("\n\n\n\t\t\tSuccessfully Restored To Default Settings.\n\n\t\t\tPress Enter To Return.\n");
             gotoxy(1, 1);
             bod();
             getch();
             goto defaul;
+        case 15:
+            goto menu;
         }
-        else
-            goto settings;
     }
-    if (opt == 'Q' || opt == 'q')
-        goto exit;
     if (opt == 99) /*Shold Never Occur, Just to prevent malfunctoning og GOTO*/
     {
     piano:
@@ -435,9 +452,19 @@ void bod(void)
         printf("%c", 186);
     }
 }
-void menu(void)
+void menu(int o)
 {
-    printf("\n\n\n\n\n\n\n\n\t\t\t Start Piano.\n\n\t\t\t Change Beep Settings.\n\n\t\t\t Enter Recording Mode.\n\n\t\t\t Exit.");
-    gotoxy(1, 1);
-    bod();
+    switch (o)
+    {
+    case 1:
+        printf("\n\n\n\n\n\n\n\n\t\t\t Start Piano.\n\n\t\t\t Change Beep Settings.\n\n\t\t\t Enter Recording Mode.\n\n\t\t\t Exit.");
+        gotoxy(1, 1);
+        bod();
+        break;
+    case 2:
+        printf("\n\n\n\n\n\n\n\n\t\t\t Change Time Seconds.\n\n\t\t\t Change Frquency Settings.\n\n\t\t\t Reset Default Settings.\n\n\t\t\t Go Back.");
+        gotoxy(1, 1);
+        bod();
+        break;
+    }
 }
