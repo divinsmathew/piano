@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <conio.h>
 #include <process.h>
+#include <ctype.h>
+#include <string.h>
 #include <dos.h>
 #include <stdlib.h>
 #include <time.h>
@@ -16,7 +18,7 @@ void main()
     FILE *sa1, *sa2, *sa3, *sa4, *sa5, *per1, *per2;
     int l, r, y, y2, y3, y4, y5, sss, c, i, tt, ft, fc, pr, sc, t, j, ff, sy, sys, in, cou, n, em;
     void sounddef(int), player(char), sig(void), bod(void), menu(int), recplayer(char), fplay(void), naam(char[5][50], int);
-    char opt, o, op, so, a[1000], rec[100], nam[5][50], temp[50][50], newn[50];
+    char opt, o, op, so, a[1000], rec[100], nam[5][50], temp[50][50], newn[50], te[50];
     textcolor(BROWN);
     clrscr();
     /* for(sc=0,pr=0;pr<=100;pr+=sc,sc+=2)
@@ -34,14 +36,7 @@ void main()
      }
      gotoxy(31,18);
      printf("  PRESS ENTER!");
-     getch();    */
-defaul:
-    /* if(sy!=-1)
-      for(l=0;l<5;l++)
-        remove(nam[l]);        /*/
-    m = 100;
-    s = 200;
-    y = y4 = y5 = 9;
+     getch();*/
     if (access("sta1.pi", 00) && access("sta2.pi", 00))
     {
         printf("first run");
@@ -60,6 +55,11 @@ defaul:
         fclose(per2);
         getch();
     }
+defaul:
+    s = 200;
+    m = 100;
+    y = y3 = y4 = y5 = 9;
+    y2 = 11;
 menu:
     clrscr();
     menu(1);
@@ -217,37 +217,60 @@ menu:
                 gotoxy(24, 23);
                 printf("Enter New Name: ");
                 gets(newn);
-                if (rename(nam[0], newn) == 0)
+                em = rename(nam[0], newn);
+                if (em == 0)
                 {
                     strcpy(nam[0], newn);
                     memset(newn, 0, 50);
                     gotoxy(23, 23);
                     printf("         Succesfully Renamed!                     ");
                     sleep(1);
-                    delline();
                 }
-                goto otto;
-            case 13:
-                if (remove(nam[0]) == 0)
+                else if (errno == 5)
                 {
                     gotoxy(23, 23);
-                    printf("         Succesfully Deleted!                     ");
+                    printf("Error: File Already Exists.");
                     sleep(1);
                 }
-                for (cou = 0, in = 0; cou <= sy; cou++)
+                goto otto;
+
+            case 13:
+                gotoxy(19, 21);
+                printf("Are You Sure You Want To Delete %s ? [Y/N]", nam[0]);
+            bak1:
+                flushall();
+                so = getch();
+                so = tolower(so);
+                switch (so)
                 {
-                    if (cou != 0)
+                case 'y':
+                    if (remove(nam[0]) == 0)
                     {
-                        strcpy(temp[in], nam[cou]);
-                        in++;
+                        gotoxy(15, 23);
+                        printf("               Succesfully Deleted!                     ");
+                        sleep(1);
                     }
+                    for (cou = 0, in = 0; cou <= sy; cou++)
+                    {
+                        if (cou != 0)
+                        {
+                            strcpy(temp[in], nam[cou]);
+                            in++;
+                        }
+                    }
+                    memset(nam, 0, sizeof(nam));
+                    for (in = 0; in < sy; in++)
+                        strcpy(nam[in], temp[in]);
+                    memset(temp, 0, sizeof(temp));
+                    sy--;
+                    goto play;
+                case 'n':
+                    goto play;
+                default:
+                    gotoxy(20, 23);
+                    printf(" Enter 'Y' for Yes Or 'N' For No.");
+                    goto bak1;
                 }
-                memset(nam, 0, sizeof(nam));
-                for (in = 0; in < sy; in++)
-                    strcpy(nam[in], temp[in]);
-                memset(temp, 0, sizeof(temp));
-                sy--;
-                goto play;
             case 15:
                 goto play;
             }
@@ -268,38 +291,60 @@ menu:
                 gotoxy(24, 23);
                 printf("Enter New Name: ");
                 gets(newn);
-                if (rename(nam[1], newn) == 0)
+                em = rename(nam[1], newn);
+                if (em == 0)
                 {
                     strcpy(nam[1], newn);
                     memset(newn, 0, 50);
                     gotoxy(23, 23);
-                    printf("         Succesfully Renamed!                  ");
+                    printf("         Succesfully Renamed!                     ");
                     sleep(1);
-                    delline();
+                }
+                else if (errno == 5)
+                {
+                    gotoxy(23, 23);
+                    printf("Error: File Already Exists.");
+                    sleep(1);
                 }
                 goto otto;
             case 13:
-                if (remove(nam[1]) == 0)
+                gotoxy(19, 21);
+                printf("Are You Sure You Want To Delete %s ? [Y/N]", nam[1]);
+            bak2:
+                flushall();
+                so = getch();
+                so = tolower(so);
+                switch (so)
                 {
-                    gotoxy(23, 23);
-                    printf("         Succesfully Deleted!                 ");
-                    sleep(1);
-                    delline();
-                }
-                for (cou = 0, in = 0; cou <= sy; cou++)
-                {
-                    if (cou != 1)
+                case 'y':
+                    if (remove(nam[1]) == 0)
                     {
-                        strcpy(temp[in], nam[cou]);
-                        in++;
+                        gotoxy(15, 23);
+                        printf("               Succesfully Deleted!                     ");
+                        sleep(1);
+                        y4 -= 2;
                     }
+                    for (cou = 0, in = 0; cou <= sy; cou++)
+                    {
+                        if (cou != 1)
+                        {
+                            strcpy(temp[in], nam[cou]);
+                            in++;
+                        }
+                    }
+                    memset(nam, 0, sizeof(nam));
+                    for (in = 0; in < sy; in++)
+                        strcpy(nam[in], temp[in]);
+                    memset(temp, 0, sizeof(temp));
+                    sy--;
+                    goto play;
+                case 'n':
+                    goto play;
+                default:
+                    gotoxy(20, 23);
+                    printf(" Enter 'Y' for Yes Or 'N' For No.");
+                    goto bak2;
                 }
-                memset(nam, 0, sizeof(nam));
-                for (in = 0; in < sy; in++)
-                    strcpy(nam[in], temp[in]);
-                memset(temp, 0, sizeof(temp));
-                sy--;
-                goto play;
             case 15:
                 goto play;
             }
@@ -320,38 +365,60 @@ menu:
                 gotoxy(24, 23);
                 printf("Enter New Name: ");
                 gets(newn);
-                if (rename(nam[2], newn) == 0)
+                em = rename(nam[2], newn);
+                if (em == 0)
                 {
                     strcpy(nam[2], newn);
                     memset(newn, 0, 50);
                     gotoxy(23, 23);
-                    printf("         Succesfully Renamed!                  ");
+                    printf("         Succesfully Renamed!                     ");
                     sleep(1);
-                    delline();
+                }
+                else if (errno == 5)
+                {
+                    gotoxy(23, 23);
+                    printf("Error: File Already Exists.");
+                    sleep(1);
                 }
                 goto otto;
             case 13:
-                if (remove(nam[2]) == 0)
+                gotoxy(19, 21);
+                printf("Are You Sure You Want To Delete %s ? [Y/N]", nam[2]);
+            bak3:
+                flushall();
+                so = getch();
+                so = tolower(so);
+                switch (so)
                 {
-                    gotoxy(23, 23);
-                    printf("         Succesfully Deleted!                 ");
-                    sleep(1);
-                    delline();
-                }
-                for (cou = 0, in = 0; cou <= sy; cou++)
-                {
-                    if (cou != 2)
+                case 'y':
+                    if (remove(nam[2]) == 0)
                     {
-                        strcpy(temp[in], nam[cou]);
-                        in++;
+                        gotoxy(15, 23);
+                        printf("               Succesfully Deleted!                     ");
+                        sleep(1);
+                        y4 -= 2;
                     }
+                    for (cou = 0, in = 0; cou <= sy; cou++)
+                    {
+                        if (cou != 2)
+                        {
+                            strcpy(temp[in], nam[cou]);
+                            in++;
+                        }
+                    }
+                    memset(nam, 0, sizeof(nam));
+                    for (in = 0; in < sy; in++)
+                        strcpy(nam[in], temp[in]);
+                    memset(temp, 0, sizeof(temp));
+                    sy--;
+                    goto play;
+                case 'n':
+                    goto play;
+                default:
+                    gotoxy(20, 23);
+                    printf(" Enter 'Y' for Yes Or 'N' For No.");
+                    goto bak3;
                 }
-                memset(nam, 0, sizeof(nam));
-                for (in = 0; in < sy; in++)
-                    strcpy(nam[in], temp[in]);
-                memset(temp, 0, sizeof(temp));
-                sy--;
-                goto play;
             case 15:
                 goto play;
             }
@@ -372,38 +439,60 @@ menu:
                 gotoxy(24, 23);
                 printf("Enter New Name: ");
                 gets(newn);
-                if (rename(nam[3], newn) == 0)
+                em = rename(nam[3], newn);
+                if (em == 0)
                 {
                     strcpy(nam[3], newn);
                     memset(newn, 0, 50);
                     gotoxy(23, 23);
-                    printf("         Succesfully Renamed!                  ");
+                    printf("         Succesfully Renamed!                     ");
                     sleep(1);
-                    delline();
+                }
+                else if (errno == 5)
+                {
+                    gotoxy(23, 23);
+                    printf("Error: File Already Exists.");
+                    sleep(1);
                 }
                 goto otto;
             case 13:
-                if (remove(nam[3]) == 0)
+                gotoxy(19, 21);
+                printf("Are You Sure You Want To Delete %s ? [Y/N]", nam[3]);
+            bak4:
+                flushall();
+                so = getch();
+                so = tolower(so);
+                switch (so)
                 {
-                    gotoxy(23, 23);
-                    printf("         Succesfully Deleted!                 ");
-                    sleep(1);
-                    delline();
-                }
-                for (cou = 0, in = 0; cou <= sy; cou++)
-                {
-                    if (cou != 3)
+                case 'y':
+                    if (remove(nam[3]) == 0)
                     {
-                        strcpy(temp[in], nam[cou]);
-                        in++;
+                        gotoxy(15, 23);
+                        printf("               Succesfully Deleted!                     ");
+                        sleep(1);
+                        y4 -= 2;
                     }
+                    for (cou = 0, in = 0; cou <= sy; cou++)
+                    {
+                        if (cou != 3)
+                        {
+                            strcpy(temp[in], nam[cou]);
+                            in++;
+                        }
+                    }
+                    memset(nam, 0, sizeof(nam));
+                    for (in = 0; in < sy; in++)
+                        strcpy(nam[in], temp[in]);
+                    memset(temp, 0, sizeof(temp));
+                    sy--;
+                    goto play;
+                case 'n':
+                    goto play;
+                default:
+                    gotoxy(20, 23);
+                    printf(" Enter 'Y' for Yes Or 'N' For No.");
+                    goto bak4;
                 }
-                memset(nam, 0, sizeof(nam));
-                for (in = 0; in < sy; in++)
-                    strcpy(nam[in], temp[in]);
-                memset(temp, 0, sizeof(temp));
-                sy--;
-                goto play;
             case 15:
                 goto play;
             }
@@ -424,38 +513,60 @@ menu:
                 gotoxy(24, 23);
                 printf("Enter New Name: ");
                 gets(newn);
-                if (rename(nam[4], newn) == 0)
+                em = rename(nam[4], newn);
+                if (em == 0)
                 {
                     strcpy(nam[4], newn);
                     memset(newn, 0, 50);
                     gotoxy(23, 23);
-                    printf("         Succesfully Renamed!                  ");
+                    printf("         Succesfully Renamed!                     ");
                     sleep(1);
-                    delline();
+                }
+                else if (errno == 5)
+                {
+                    gotoxy(23, 23);
+                    printf("Error: File Already Exists.");
+                    sleep(1);
                 }
                 goto otto;
             case 13:
-                if (remove(nam[4]) == 0)
+                gotoxy(19, 21);
+                printf("Are You Sure You Want To Delete %s ? [Y/N]", nam[4]);
+            bak5:
+                flushall();
+                so = getch();
+                so = tolower(so);
+                switch (so)
                 {
-                    gotoxy(23, 23);
-                    printf("         Succesfully Deleted!                 ");
-                    sleep(1);
-                    delline();
-                }
-                for (cou = 0, in = 0; cou <= sy; cou++)
-                {
-                    if (cou != 4)
+                case 'y':
+                    if (remove(nam[4]) == 0)
                     {
-                        strcpy(temp[in], nam[cou]);
-                        in++;
+                        gotoxy(15, 23);
+                        printf("               Succesfully Deleted!                     ");
+                        sleep(1);
+                        y4 -= 2;
                     }
+                    for (cou = 0, in = 0; cou <= sy; cou++)
+                    {
+                        if (cou != 4)
+                        {
+                            strcpy(temp[in], nam[cou]);
+                            in++;
+                        }
+                    }
+                    memset(nam, 0, sizeof(nam));
+                    for (in = 0; in < sy; in++)
+                        strcpy(nam[in], temp[in]);
+                    memset(temp, 0, sizeof(temp));
+                    sy--;
+                    goto play;
+                case 'n':
+                    goto play;
+                default:
+                    gotoxy(20, 23);
+                    printf(" Enter 'Y' for Yes Or 'N' For No.");
+                    goto bak5;
                 }
-                memset(nam, 0, sizeof(nam));
-                for (in = 0; in < sy; in++)
-                    strcpy(nam[in], temp[in]);
-                memset(temp, 0, sizeof(temp));
-                sy--;
-                goto play;
             case 15:
                 goto play;
             }
@@ -501,14 +612,10 @@ replay:
     fplay();
     for (t = 0; t <= i; t++)
         recplayer(a[t]);
-    y2 = 11;
 smu:
     clrscr();
     menu(3);
-    if (y2 != 11)
-        gotoxy(54, y2);
-    else
-        gotoxy(54, 11);
+    gotoxy(54, y2);
     printf("%c", 174);
     for (;;)
     {
@@ -557,8 +664,18 @@ smu:
         if (sy < 4)
         {
             printf("Enter A Name: ");
-            gets(nam[++sy]);
-            gotoxy(24, 76);
+            gets(te);
+            for (em = 0; em < sy + 1; em++)
+                if (strcmp(te, nam[em]) == 0)
+                {
+                    gotoxy(22, 23);
+                    printf("     Error: File Already Exists.");
+                    sleep(1);
+                    memset(te, 0, sizeof(te));
+                    goto smu;
+                }
+            strcpy(nam[++sy], te);
+            memset(te, 0, sizeof(te));
             sa1 = fopen(nam[sy], "w");
             fprintf(sa1, "%s", a);
             fclose(sa1);
@@ -570,7 +687,7 @@ smu:
         }
         else
             gotoxy(27, 23);
-        printf("Limit Of 5 Reached!!");
+        printf("     Limit Of 5 Reached!!");
         sleep(1);
         goto smu;
     }
@@ -580,9 +697,9 @@ smu:
     settings:
         clrscr();
         menu(2);
-        gotoxy(54, 9);
+        gotoxy(54, y3);
         printf("%c", 174);
-        for (y3 = 9;;)
+        for (;;)
         {
             if (kbhit())
             {
@@ -846,7 +963,7 @@ void menu(int o)
         bod();
         break;
     case 4:
-        printf("\n\n\n\n\n\n\n\n\t\t\t Play This Recording.\n\n\t\t\t Rename This Recording.\n\n\t\t\t Delete This Recording\n\n\t\t\t Go Back.");
+        printf("\n\n\n\n\n\n\n\n\t\t\t Play This Recording.\n\n\t\t\t Rename This Recording.\n\n\t\t\t Delete This Recording.\n\n\t\t\t Go Back.");
         gotoxy(1, 1);
         bod();
     }
@@ -929,7 +1046,7 @@ void naam(char nam[5][50], int sy)
 {
     int j, i;
     gotoxy(13, 3);
-    printf("\t\t\tYour Recordings");
+    printf("\t\t\tYour Recordings:-");
     gotoxy(32, 22);
     printf("Press B to Go Back.");
     gotoxy(20, 9);
