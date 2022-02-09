@@ -20,14 +20,14 @@ void main(void)
 {
     FILE *sa1, *sa2, *sa3, *sa4, *sa5, *per1, *per2, *per3, *del;
     int extfti(int, int, int, int), x, z, d, gm, sl, l, r, ln, y, y2, y3, y4, y5, y6, y7, sss, c, i, tt, ft, fc, pr, sc, j, ff, sy, sys, in, cou, n, em, am, iy, null;
-    void sounddef(int), record(char), player(char), sig(void), eff(void), err(int), bod(int), menu(int), recplayer(char), fplay(void), dor(void), naam(char[5][50], int), nemu(char[50]), rot();
+    void sounddef(int), record(char), player(char), sig(void), eff(void), err(int), bod(int), menu(int), recplayer(char), fplay(void), dor(void), naam(char[5][50], int), nemu(char[50]), rot(), beep(int, int);
     char opt, o, op, so, a[1000], rec[1000], nam[5][50], temp[50][50], newn[50], te[50];
     if ((access("sta1.pi", 00) || access("sta2.pi", 00) || access("sta3.pi", 00)))
     {
         textbackground(WHITE);
         textcolor(BLACK);
         clrscr();
-        printf("\n\n\t\t    WELCOME TO THE SETUP OF PIANO by Divins.\n\t\t   ككككككككككككككككككككككككككككككككككككككككك \n\n\n\t   This Setup Will Install \"PIANO by Divins\" on your computer.\n\n\n\n");
+        printf("\n\n\t\t    FIRST TIME CONFIGRATION PIANO by Divins.\n\t\t   ككككككككككككككككككككككككككككككككككككككككك \n\n\n     This Will Configure The Product \"PIANO by Divins\" on your computer.\n\n\n\n");
         bod(BLACK);
         for (i = 2;; i++)
         {
@@ -50,13 +50,29 @@ void main(void)
         printf("                                ");
         for (i = 0; i < 101; i++)
         {
-            gotoxy(21, 17);
-            printf("Installation In Progress........%d%", i);
-            delay(50);
+            gotoxy(19, 17);
+            if (i < 37)
+            {
+                printf("  Configuration In Progress........%d%", i);
+                delay(50);
+            }
+            if (i > 37 && i < 69)
+            {
+                printf("Checking System Performance........%d%", i);
+                delay(100);
+            }
+            else if (i > 69)
+            {
+                printf("Finalising System Configuration....%d%", i);
+                if (i == 99)
+                    delay(2000);
+                else
+                    delay(150);
+            }
         }
         clrscr();
         gotoxy(17, 7);
-        printf(" Piano Is Successfully Installed On Your System.\n\t\tكككككككككككككككككككككككككككككككككككككككككككككككك \n\n\n\n\t Setup Will Now Guid You Through The First Time Run-Configurations.\n\n\t Please Select Your Preferences. You Also Can Change Them \n\n\t Manually After The Setup.");
+        printf(" Piano Is Successfully Installed On Your System.\n\t\tكككككككككككككككككككككككككككككككككككككككككككككككك \n\n\n\n\t Setup Will Now Guid You Through The Basic Settings Of Piano.\n\n\t Please Select Your Preferences. You Also Can Change Them \n\n\t Manually After The Setup.");
         bod(BLACK);
         for (i = 2;; i++)
         {
@@ -81,16 +97,16 @@ void main(void)
             if (d != 0)
                 for (i = 0; i < 3; i++)
                 {
-                    gotoxy(38, 12);
+                    gotoxy(40, 12);
                     cprintf("\\");
                     delay(100);
-                    gotoxy(38, 12);
+                    gotoxy(40, 12);
                     cprintf("|");
                     delay(100);
-                    gotoxy(38, 12);
+                    gotoxy(40, 12);
                     cprintf("-");
                     delay(100);
-                    gotoxy(38, 12);
+                    gotoxy(40, 12);
                     cprintf("/");
                     delay(100);
                 }
@@ -250,6 +266,14 @@ no:
     else
         goto no;
 defaul:
+    beep(300, 100);
+    delay(25);
+    beep(400, 100);
+    delay(25);
+    beep(500, 100);
+    delay(25);
+    beep(600, 299);
+    delay(60);
     s = 200;
     m = 100;
     textcolor(decolor);
@@ -273,18 +297,24 @@ menu:
         opt = getch();
         if (opt == DOWNARR && y != 21)
         {
+            beep(3000, 20);
             y += 2;
             gotoxy(54, y);
             cprintf("%c", 174);
         }
         if (opt == UPARR && y != 13)
         {
+            beep(3000, 20);
             y -= 2;
             gotoxy(54, y);
             cprintf("%c", 174);
         }
         if (opt == 13)
+        {
+            beep(1000, 30);
+            beep(900, 30);
             break;
+        }
     }
     switch (y)
     {
@@ -355,12 +385,14 @@ menu:
             opt = getch();
             if (opt == DOWNARR && y4 != sys)
             {
+                beep(3000, 20);
                 y4 += 2;
                 gotoxy(54, y4);
                 cprintf("%c", 174);
             }
             if (opt == UPARR && y4 != 9)
             {
+                beep(3000, 20);
                 y4 -= 2;
                 gotoxy(54, y4);
                 cprintf("%c", 174);
@@ -368,7 +400,11 @@ menu:
             if (tolower(opt) == 'b')
                 goto menu;
             if (opt == 13)
+            {
+                beep(1000, 30);
+                beep(900, 30);
                 break;
+            }
         }
         switch (y4)
         {
@@ -411,18 +447,24 @@ menu:
             opt = getch();
             if (opt == DOWNARR && y5 != 15)
             {
+                beep(3000, 20);
                 y5 += 2;
                 gotoxy(54, y5);
                 printf("%c", 174);
             }
             if (opt == UPARR && y5 != 9)
             {
+                beep(3000, 20);
                 y5 -= 2;
                 gotoxy(54, y5);
                 printf("%c", 174);
             }
             if (opt == 13)
+            {
+                beep(1000, 30);
+                beep(900, 30);
                 break;
+            }
         }
         switch (y4)
         {
@@ -444,7 +486,10 @@ menu:
                 {
                     gotoxy(24, 23);
                     printf("Error: Damaged Recorord File!");
-                    delay(2000);
+                    beep(100, 100);
+                    delay(100);
+                    beep(60, 100);
+                    delay(1700);
                     memset(te, 0, sizeof(te));
                     goto otto;
                 }
@@ -473,6 +518,9 @@ menu:
                     null = 0;
                     gotoxy(23, 23);
                     printf("Error: Null String Detected!");
+                    beep(100, 100);
+                    delay(100);
+                    beep(60, 100);
                     sleep(1);
                     goto otto;
                 }
@@ -480,6 +528,9 @@ menu:
                 {
                     gotoxy(15, 23);
                     printf("Error: Name Should Only Have A Maximum Of 12 Characters.");
+                    beep(100, 100);
+                    delay(100);
+                    beep(60, 100);
                     sleep(2);
                     goto otto;
                 }
@@ -487,6 +538,9 @@ menu:
                 {
                     gotoxy(23, 23);
                     printf("Error: File Already Exists.");
+                    beep(100, 100);
+                    delay(100);
+                    beep(60, 100);
                     memset(newn, 0, 50);
                     sleep(1);
                 }
@@ -502,6 +556,11 @@ menu:
                         memset(te, 0, 50);
                         gotoxy(23, 23);
                         printf("         Succesfully Renamed!                     ");
+                        beep(2000, 100);
+                        delay(10);
+                        beep(1500, 100);
+                        delay(10);
+                        beep(1000, 100);
                         sleep(1);
                     }
                 }
@@ -525,6 +584,11 @@ menu:
                         {
                             gotoxy(15, 23);
                             printf("               Succesfully Deleted!                     ");
+                            beep(2000, 100);
+                            delay(10);
+                            beep(1500, 100);
+                            delay(10);
+                            beep(1000, 100);
                             sleep(1);
                             y4 -= 2;
                         }
@@ -571,6 +635,9 @@ menu:
                 {
                     gotoxy(24, 23);
                     printf("Error: Damaged Recorord File!");
+                    beep(100, 100);
+                    delay(100);
+                    beep(60, 100);
                     delay(2000);
                     memset(te, 0, sizeof(te));
                     goto otto;
@@ -600,6 +667,9 @@ menu:
                     null = 0;
                     gotoxy(23, 23);
                     printf("Error: Null String Detected!");
+                    beep(100, 100);
+                    delay(100);
+                    beep(60, 100);
                     sleep(1);
                     goto otto;
                 }
@@ -607,6 +677,9 @@ menu:
                 {
                     gotoxy(15, 23);
                     printf("Error: Name Should Only Have A Maximum Of 12 Characters.");
+                    beep(100, 100);
+                    delay(100);
+                    beep(60, 100);
                     sleep(2);
                     goto otto;
                 }
@@ -614,6 +687,9 @@ menu:
                 {
                     gotoxy(23, 23);
                     printf("Error: File Already Exists.");
+                    beep(100, 100);
+                    delay(100);
+                    beep(60, 100);
                     memset(newn, 0, 50);
                     sleep(1);
                 }
@@ -629,6 +705,11 @@ menu:
                         memset(te, 0, 50);
                         gotoxy(23, 23);
                         printf("         Succesfully Renamed!                     ");
+                        beep(2000, 100);
+                        delay(10);
+                        beep(1500, 100);
+                        delay(10);
+                        beep(1000, 100);
                         sleep(1);
                     }
                 }
@@ -652,6 +733,11 @@ menu:
                         {
                             gotoxy(15, 23);
                             printf("               Succesfully Deleted!                     ");
+                            beep(2000, 100);
+                            delay(10);
+                            beep(1500, 100);
+                            delay(10);
+                            beep(1000, 100);
                             sleep(1);
                             y4 -= 2;
                         }
@@ -698,6 +784,9 @@ menu:
                 {
                     gotoxy(24, 23);
                     printf("Error: Damaged Recorord File!");
+                    beep(100, 100);
+                    delay(100);
+                    beep(60, 100);
                     delay(2000);
                     memset(te, 0, sizeof(te));
                     goto otto;
@@ -727,6 +816,9 @@ menu:
                     null = 0;
                     gotoxy(23, 23);
                     printf("Error: Null String Detected!");
+                    beep(100, 100);
+                    delay(100);
+                    beep(60, 100);
                     sleep(1);
                     goto otto;
                 }
@@ -734,6 +826,9 @@ menu:
                 {
                     gotoxy(15, 23);
                     printf("Error: Name Should Only Have A Maximum Of 12 Characters.");
+                    beep(100, 100);
+                    delay(100);
+                    beep(60, 100);
                     sleep(2);
                     goto otto;
                 }
@@ -741,6 +836,9 @@ menu:
                 {
                     gotoxy(23, 23);
                     printf("Error: File Already Exists.");
+                    beep(100, 100);
+                    delay(100);
+                    beep(60, 100);
                     memset(newn, 0, 50);
                     sleep(1);
                 }
@@ -756,6 +854,11 @@ menu:
                         memset(te, 0, 50);
                         gotoxy(23, 23);
                         printf("         Succesfully Renamed!                     ");
+                        beep(2000, 100);
+                        delay(10);
+                        beep(1500, 100);
+                        delay(10);
+                        beep(1000, 100);
                         sleep(1);
                     }
                 }
@@ -779,6 +882,11 @@ menu:
                         {
                             gotoxy(15, 23);
                             printf("               Succesfully Deleted!                     ");
+                            beep(2000, 100);
+                            delay(10);
+                            beep(1500, 100);
+                            delay(10);
+                            beep(1000, 100);
                             sleep(1);
                             y4 -= 2;
                         }
@@ -825,6 +933,9 @@ menu:
                 {
                     gotoxy(24, 23);
                     printf("Error: Damaged Recorord File!");
+                    beep(100, 100);
+                    delay(100);
+                    beep(60, 100);
                     delay(2000);
                     memset(te, 0, sizeof(te));
                     goto otto;
@@ -854,6 +965,9 @@ menu:
                     null = 0;
                     gotoxy(23, 23);
                     printf("Error: Null String Detected!");
+                    beep(100, 100);
+                    delay(100);
+                    beep(60, 100);
                     sleep(1);
                     goto otto;
                 }
@@ -861,6 +975,9 @@ menu:
                 {
                     gotoxy(15, 23);
                     printf("Error: Name Should Only Have A Maximum Of 12 Characters.");
+                    beep(100, 100);
+                    delay(100);
+                    beep(60, 100);
                     sleep(2);
                     goto otto;
                 }
@@ -868,6 +985,9 @@ menu:
                 {
                     gotoxy(23, 23);
                     printf("Error: File Already Exists.");
+                    beep(100, 100);
+                    delay(100);
+                    beep(60, 100);
                     memset(newn, 0, 50);
                     sleep(1);
                 }
@@ -883,6 +1003,11 @@ menu:
                         memset(te, 0, 50);
                         gotoxy(23, 23);
                         printf("         Succesfully Renamed!                     ");
+                        beep(2000, 100);
+                        delay(10);
+                        beep(1500, 100);
+                        delay(10);
+                        beep(1000, 100);
                         sleep(1);
                     }
                 }
@@ -906,6 +1031,11 @@ menu:
                         {
                             gotoxy(15, 23);
                             printf("               Succesfully Deleted!                     ");
+                            beep(2000, 100);
+                            delay(10);
+                            beep(1500, 100);
+                            delay(10);
+                            beep(1000, 100);
                             sleep(1);
                             y4 -= 2;
                         }
@@ -952,6 +1082,9 @@ menu:
                 {
                     gotoxy(24, 23);
                     printf("Error: Damaged Recorord File!");
+                    beep(100, 100);
+                    delay(100);
+                    beep(60, 100);
                     delay(2000);
                     memset(te, 0, sizeof(te));
                     goto otto;
@@ -981,6 +1114,9 @@ menu:
                     null = 0;
                     gotoxy(23, 23);
                     printf("Error: Null String Detected!");
+                    beep(100, 100);
+                    delay(100);
+                    beep(60, 100);
                     sleep(1);
                     goto otto;
                 }
@@ -988,6 +1124,9 @@ menu:
                 {
                     gotoxy(15, 23);
                     printf("Error: Name Should Only Have A Maximum Of 12 Characters.");
+                    beep(100, 100);
+                    delay(100);
+                    beep(60, 100);
                     sleep(2);
                     goto otto;
                 }
@@ -995,6 +1134,9 @@ menu:
                 {
                     gotoxy(23, 23);
                     printf("Error: File Already Exists.");
+                    beep(100, 100);
+                    delay(100);
+                    beep(60, 100);
                     memset(newn, 0, 50);
                     sleep(1);
                 }
@@ -1010,6 +1152,11 @@ menu:
                         memset(te, 0, 50);
                         gotoxy(23, 23);
                         printf("         Succesfully Renamed!                     ");
+                        beep(2000, 100);
+                        delay(10);
+                        beep(1500, 100);
+                        delay(10);
+                        beep(1000, 100);
                         sleep(1);
                     }
                 }
@@ -1033,6 +1180,11 @@ menu:
                         {
                             gotoxy(15, 23);
                             printf("               Succesfully Deleted!                     ");
+                            beep(2000, 100);
+                            delay(10);
+                            beep(1500, 100);
+                            delay(10);
+                            beep(1000, 100);
                             sleep(1);
                             y4 -= 2;
                         }
@@ -1089,6 +1241,9 @@ menu:
         {
             gotoxy(20, 10);
             printf("Nothing Recorded. Please Try Again In %d.", sss);
+            beep(100, 100);
+            delay(100);
+            beep(60, 100);
             gotoxy(1, 1);
             bod(color);
             delay(1000);
@@ -1125,18 +1280,24 @@ smu:
         so = getch();
         if (so == DOWNARR && y2 < 17)
         {
+            beep(3000, 20);
             gotoxy(54, y2 + 2);
             y2 += 2;
             cprintf("%c", 174);
         }
         if (so == UPARR && y2 > 11)
         {
+            beep(3000, 20);
             gotoxy(54, y2 - 2);
             y2 -= 2;
             cprintf("%c", 174);
         }
         if (so == 13)
+        {
+            beep(1000, 30);
+            beep(900, 30);
             break;
+        }
     }
     switch (y2)
     {
@@ -1168,6 +1329,9 @@ smu:
             {
                 gotoxy(22, 23);
                 printf("     Error: Null String Detected.");
+                beep(100, 100);
+                delay(100);
+                beep(60, 100);
                 sleep(1);
                 memset(te, 0, sizeof(te));
                 goto smu;
@@ -1176,6 +1340,9 @@ smu:
             {
                 gotoxy(15, 23);
                 printf("Error: Name Should Only Have A Maximum Of 12 Characters.");
+                beep(100, 100);
+                delay(100);
+                beep(60, 100);
                 sleep(2);
                 memset(te, 0, sizeof(te));
                 goto smu;
@@ -1185,6 +1352,9 @@ smu:
                 {
                     gotoxy(22, 23);
                     printf("     Error: File Already Exists.");
+                    beep(100, 100);
+                    delay(100);
+                    beep(60, 100);
                     sleep(1);
                     memset(te, 0, sizeof(te));
                     goto smu;
@@ -1201,12 +1371,20 @@ smu:
             memset(te, 0, sizeof(te));
             gotoxy(23, 23);
             printf("         Succesfully Saved!                             ");
+            beep(2000, 100);
+            delay(10);
+            beep(1500, 100);
+            delay(10);
+            beep(1000, 100);
             sleep(1);
             goto smu;
         }
         else
             gotoxy(27, 23);
         printf("     Limit Of 5 Reached!!");
+        beep(100, 100);
+        delay(100);
+        beep(60, 100);
         sleep(1);
         goto smu;
     }
@@ -1232,18 +1410,24 @@ smu:
             op = getch();
             if (op == DOWNARR && y3 != 17)
             {
+                beep(3000, 20);
                 gotoxy(59, y3 + 2);
                 y3 += 2;
                 cprintf("%c", 174);
             }
             if (op == UPARR && y3 != 9)
             {
+                beep(3000, 20);
                 gotoxy(59, y3 - 2);
                 y3 -= 2;
                 cprintf("%c", 174);
             }
             if (op == 13)
+            {
+                beep(1000, 30);
+                beep(900, 30);
                 break;
+            }
         }
         switch (y3)
         {
@@ -1257,12 +1441,20 @@ smu:
             if (tt == m)
             {
                 printf("\n\n\n\tNo Changes Made. Press Any Key To Return.");
+                beep(100, 100);
+                delay(100);
+                beep(60, 100);
                 bod(color);
                 getch();
                 goto settings;
             }
             m = tt;
             printf("\n\n\tSuccessfully Changed To %dms.\n\n\tPress Any Key To Return", m);
+            beep(2000, 100);
+            delay(10);
+            beep(1500, 100);
+            delay(10);
+            beep(1000, 100);
             gotoxy(1, 1);
             bod(color);
             getch();
@@ -1288,18 +1480,24 @@ smu:
                 opt = getch();
                 if (opt == DOWNARR && y6 != 16)
                 {
+                    beep(3000, 20);
                     y6 += 2;
                     gotoxy(54, y6);
                     printf("%c", 174);
                 }
                 if (opt == UPARR && y6 != 10)
                 {
+                    beep(3000, 20);
                     y6 -= 2;
                     gotoxy(54, y6);
                     printf("%c", 174);
                 }
                 if (opt == 13)
+                {
+                    beep(1000, 30);
+                    beep(900, 30);
                     break;
+                }
             }
             memset(type, 0, 50);
             switch (y6)
@@ -1336,12 +1534,14 @@ smu:
                 op = getch();
                 if (op == DOWNARR && y7 != 22)
                 {
+                    beep(3000, 20);
                     y7 += 2;
                     gotoxy(50, y7);
                     printf("%c", 174);
                 }
                 if (op == UPARR && y7 != 6)
                 {
+                    beep(3000, 20);
                     y7 -= 2;
                     gotoxy(50, y7);
                     printf("%c", 174);
@@ -1349,7 +1549,11 @@ smu:
                 if (tolower(op) == 'b')
                     goto col;
                 if (op == 13)
+                {
+                    beep(1000, 30);
+                    beep(900, 30);
                     break;
+                }
             }
             switch (y6) // err checking switch
             {
@@ -1360,6 +1564,9 @@ smu:
                     if (0 == colset[2])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(1);
                         delay(3000);
                         goto loc;
@@ -1367,6 +1574,9 @@ smu:
                     else if (0 == colset[1])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(0);
                         delay(2000);
                         goto col;
@@ -1376,6 +1586,9 @@ smu:
                     if (1 == colset[2])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(1);
                         delay(3000);
                         goto loc;
@@ -1383,6 +1596,9 @@ smu:
                     else if (1 == colset[1])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(0);
                         delay(2000);
                         goto col;
@@ -1392,6 +1608,9 @@ smu:
                     if (2 == colset[2])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(1);
                         delay(3000);
                         goto loc;
@@ -1399,6 +1618,9 @@ smu:
                     else if (2 == colset[1])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(0);
                         delay(2000);
                         goto col;
@@ -1408,6 +1630,9 @@ smu:
                     if (3 == colset[2])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(1);
                         delay(3000);
                         goto loc;
@@ -1415,6 +1640,9 @@ smu:
                     else if (3 == colset[1])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(0);
                         delay(2000);
                         goto col;
@@ -1424,6 +1652,9 @@ smu:
                     if (4 == colset[2])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(1);
                         delay(3000);
                         goto loc;
@@ -1431,6 +1662,9 @@ smu:
                     else if (4 == colset[1])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(0);
                         delay(2000);
                         goto col;
@@ -1440,6 +1674,9 @@ smu:
                     if (5 == colset[2])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(1);
                         delay(3000);
                         goto loc;
@@ -1447,6 +1684,9 @@ smu:
                     else if (5 == colset[1])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(0);
                         delay(2000);
                         goto col;
@@ -1456,6 +1696,9 @@ smu:
                     if (6 == colset[2])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(1);
                         delay(3000);
                         goto loc;
@@ -1463,6 +1706,9 @@ smu:
                     else if (6 == colset[1])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(0);
                         delay(2000);
                         goto col;
@@ -1472,6 +1718,9 @@ smu:
                     if (9 == colset[2])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(1);
                         delay(3000);
                         goto loc;
@@ -1479,6 +1728,9 @@ smu:
                     else if (9 == colset[1])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(0);
                         delay(2000);
                         goto col;
@@ -1488,6 +1740,9 @@ smu:
                     if (7 == colset[2])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(1);
                         delay(3000);
                         goto loc;
@@ -1495,6 +1750,9 @@ smu:
                     else if (7 == colset[1])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(0);
                         delay(2000);
                         goto col;
@@ -1509,6 +1767,9 @@ smu:
                     if (0 == colset[1])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(3);
                         delay(3000);
                         goto loc;
@@ -1516,6 +1777,9 @@ smu:
                     else if (0 == colset[0])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(4);
                         delay(2000);
                         goto loc;
@@ -1523,6 +1787,9 @@ smu:
                     else if (0 == colset[2])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(0);
                         delay(2000);
                         goto col;
@@ -1532,6 +1799,9 @@ smu:
                     if (1 == colset[1])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(3);
                         delay(2000);
                         goto loc;
@@ -1539,6 +1809,9 @@ smu:
                     else if (1 == colset[0])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(4);
                         delay(2000);
                         goto loc;
@@ -1546,6 +1819,9 @@ smu:
                     else if (1 == colset[2])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(0);
                         delay(2000);
                         goto col;
@@ -1555,6 +1831,9 @@ smu:
                     if (2 == colset[1])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(3);
                         delay(3000);
                         goto loc;
@@ -1562,6 +1841,9 @@ smu:
                     else if (2 == colset[0])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(4);
                         delay(2000);
                         goto loc;
@@ -1569,6 +1851,9 @@ smu:
                     else if (2 == colset[2])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(0);
                         delay(2000);
                         goto col;
@@ -1578,6 +1863,9 @@ smu:
                     if (3 == colset[1])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(3);
                         delay(3000);
                         goto loc;
@@ -1585,6 +1873,9 @@ smu:
                     else if (3 == colset[0])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(4);
                         delay(2000);
                         goto loc;
@@ -1592,6 +1883,9 @@ smu:
                     else if (3 == colset[2])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(0);
                         delay(2000);
                         goto col;
@@ -1601,6 +1895,9 @@ smu:
                     if (4 == colset[1])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(3);
                         delay(3000);
                         goto loc;
@@ -1608,6 +1905,9 @@ smu:
                     else if (4 == colset[0])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(4);
                         delay(2000);
                         goto loc;
@@ -1615,6 +1915,9 @@ smu:
                     else if (4 == colset[2])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(0);
                         delay(2000);
                         goto col;
@@ -1624,6 +1927,9 @@ smu:
                     if (5 == colset[1])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(3);
                         delay(3000);
                         goto loc;
@@ -1631,6 +1937,9 @@ smu:
                     else if (5 == colset[0])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(4);
                         delay(2000);
                         goto loc;
@@ -1638,6 +1947,9 @@ smu:
                     else if (5 == colset[2])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(0);
                         delay(2000);
                         goto col;
@@ -1647,6 +1959,9 @@ smu:
                     if (6 == colset[1])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(3);
                         delay(3000);
                         goto loc;
@@ -1654,6 +1969,9 @@ smu:
                     else if (6 == colset[0])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(4);
                         delay(2000);
                         goto loc;
@@ -1661,6 +1979,9 @@ smu:
                     else if (6 == colset[2])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(0);
                         delay(2000);
                         goto col;
@@ -1670,6 +1991,9 @@ smu:
                     if (9 == colset[1])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(3);
                         delay(3000);
                         goto loc;
@@ -1677,6 +2001,9 @@ smu:
                     else if (9 == colset[0])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(4);
                         delay(2000);
                         goto loc;
@@ -1684,6 +2011,9 @@ smu:
                     else if (9 == colset[2])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(0);
                         delay(2000);
                         goto col;
@@ -1693,6 +2023,9 @@ smu:
                     if (7 == colset[1])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(3);
                         delay(3000);
                         goto loc;
@@ -1700,6 +2033,9 @@ smu:
                     else if (7 == colset[0])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(4);
                         delay(2000);
                         goto loc;
@@ -1707,6 +2043,9 @@ smu:
                     else if (7 == colset[2])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(0);
                         delay(2000);
                         goto col;
@@ -1721,6 +2060,9 @@ smu:
                     if (0 == colset[2])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(5);
                         delay(3000);
                         goto loc;
@@ -1728,6 +2070,9 @@ smu:
                     else if (0 == colset[0])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(0);
                         delay(2000);
                         goto col;
@@ -1737,6 +2082,9 @@ smu:
                     if (1 == colset[2])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(5);
                         delay(3000);
                         goto loc;
@@ -1744,6 +2092,9 @@ smu:
                     else if (1 == colset[0])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(0);
                         delay(2000);
                         goto col;
@@ -1753,6 +2104,9 @@ smu:
                     if (2 == colset[2])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(5);
                         delay(3000);
                         goto loc;
@@ -1760,6 +2114,9 @@ smu:
                     else if (2 == colset[0])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(0);
                         delay(2000);
                         goto col;
@@ -1769,6 +2126,9 @@ smu:
                     if (3 == colset[2])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(5);
                         delay(3000);
                         goto loc;
@@ -1776,6 +2136,9 @@ smu:
                     else if (3 == colset[0])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(0);
                         delay(2000);
                         goto col;
@@ -1785,6 +2148,9 @@ smu:
                     if (4 == colset[2])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(5);
                         delay(3000);
                         goto loc;
@@ -1792,6 +2158,9 @@ smu:
                     else if (4 == colset[0])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(0);
                         delay(2000);
                         goto col;
@@ -1801,6 +2170,9 @@ smu:
                     if (5 == colset[2])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(5);
                         delay(3000);
                         goto loc;
@@ -1808,6 +2180,9 @@ smu:
                     else if (5 == colset[0])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(0);
                         delay(2000);
                         goto col;
@@ -1817,6 +2192,9 @@ smu:
                     if (6 == colset[2])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(5);
                         delay(3000);
                         goto loc;
@@ -1824,6 +2202,9 @@ smu:
                     else if (6 == colset[0])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(0);
                         delay(2000);
                         goto col;
@@ -1833,6 +2214,9 @@ smu:
                     if (9 == colset[2])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(5);
                         delay(3000);
                         goto loc;
@@ -1840,6 +2224,9 @@ smu:
                     else if (9 == colset[0])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(0);
                         delay(2000);
                         goto col;
@@ -1849,6 +2236,9 @@ smu:
                     if (15 == colset[2])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(5);
                         delay(3000);
                         goto loc;
@@ -1856,6 +2246,9 @@ smu:
                     else if (15 == colset[0])
                     {
                         rot();
+                        beep(100, 100);
+                        delay(100);
+                        beep(60, 100);
                         err(0);
                         delay(2000);
                         goto col;
@@ -2042,12 +2435,20 @@ smu:
             if (s == ft)
             {
                 printf("\n\n\n\tNo Changes Made. Press Any Key To Return.");
+                beep(100, 100);
+                delay(100);
+                beep(60, 100);
                 bod(color);
                 getch();
                 goto settings;
             }
             s = ft;
             printf("\n\n\n\tStarting Frequency Successfully Changed To %d.\n\n\tPress Any Key To Return\n", s);
+            beep(2000, 100);
+            delay(10);
+            beep(1500, 100);
+            delay(10);
+            beep(1000, 100);
             gotoxy(1, 1);
             bod(color);
             getch();
@@ -2076,7 +2477,12 @@ smu:
             textbackground(BLACK);
             textcolor(decolor);
             clrscr();
-            printf("\n\n\n\n\n\n\n\n\n\t\t  Successfully Restored To Default Settings.\n\n\t\t\t  Press Enter To Return.\n");
+            printf("\n\n\n\n\n\n\n\n\n\t\t    Successfully Restored To Default Settings.\n\n\t\t\t   Press Any Key To Return.\n");
+            beep(2000, 100);
+            delay(10);
+            beep(1500, 100);
+            delay(10);
+            beep(1000, 100);
             bod(color);
             delay(100);
             getch();
@@ -2134,12 +2540,20 @@ smu:
             printf("\n\n\n\n\n\n\n\n\n\n\t\t\t\t     Bye\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\tBy Divins.");
             gotoxy(1, 1);
             bod(color);
-            for (i = 3; i != 0; i--)
+            for (i = 37; i < 42; i += 2)
             {
-                gotoxy(44, 11);
-                printf("(%d)", i);
-                sleep(1);
+                gotoxy(i, 14);
+                cprintf("ك  ");
+                if (i != 41)
+                    delay(800);
             }
+            beep(600, 100);
+            delay(25);
+            beep(500, 100);
+            delay(25);
+            beep(400, 100);
+            delay(25);
+            beep(300, 299);
             exit(0);
         }
         else if (toupper(so) == 'N')
@@ -2708,6 +3122,12 @@ void menu(int o)
         bod(color);
     }
 }
+void beep(int s, int d)
+{
+    sound(s);
+    delay(d);
+    nosound();
+}
 void recplayer(char a)
 {
     a = tolower(a);
@@ -3080,4 +3500,3 @@ void eff(void)
             delay(150);
         }
     }
-}
