@@ -5,11 +5,16 @@
 #include <stdlib.h>
 #include <time.h>
 #include <mem.h>
+
+#define UPARR 72
+#define LEFTARR 75
+#define DOWNARR 80
+#define RIGHTARR 77
 int m, s, s1, s2, s3, s4, s5, s6, s7, s8;
 void main()
 {
-    int sss, c, i, tt, ft, pr, sc, t = 0;
-    void sounddef(int), player(char), sig(void), bod(void);
+    int r, y, sss, c, i, tt, ft, pr, sc, t = 0;
+    void sounddef(int), player(char), sig(void), bod(void), menu(void);
     char opt, o, op, so, a[1000];
     textcolor(GREEN);
     clrscr();
@@ -34,150 +39,186 @@ defaul:
     s = 200;
 menu:
     clrscr();
-    printf("\n\n\n\n\n\n\n\n\t\t\tPress Enter To Start Piano.\n\n\t\t\tPress X To Change Beep Settings.\n\n\t\t\tEnter U To Enter Recording Mode.\n\n\t\t\tPress Q to Exit.");
-    gotoxy(1, 1);
-    bod();
-    opt = getch();
-    if (opt == 'U' || opt == 'u')
-    {
-    again:
-        clrscr();
-        sounddef(s);
-        printf("\n\n\t     \t Piano is On Recording Mode!\n\n\t You Can Play Piano Using Keyboard Keys From A-L.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t Once completed Press T To Stop Recording.");
-        gotoxy(1, 1);
-        bod();
-        for (i = 0;; t++)
-        {
-            o = getch();
-            if (o == 'a' || o == 's' || o == 'd' || o == 'f' || o == 'g' || o == 'h' || o == 'j' || o == 'k' || o == 'l' || o == 'A' || o == 'S' || o == 'D' || o == 'F' || o == 'G' || o == 'H' || o == 'J' || o == 'K' || o == 'L')
-            {
-                a[i] = o;
-                i++;
-            }
-            player(o);
-            if (o == 't' || o == 'T')
-                break;
-        }
-        if (i == 0)
-        {
-            clrscr();
-            for (sss = 5; sss != 0; sss--)
-            {
-                gotoxy(20, 10);
-                printf("Nothing Recorded. Please Try Again In %d.", sss);
-                gotoxy(1, 1);
-                bod();
-                delay(1000);
-            }
-            goto again;
-        }
-        clrscr();
-        printf("\n\n\n\n\n\n\n\n\n\n\n\n\tSuccessfully Recorded. Press Enter To Here Your Recordings....");
-        gotoxy(1, 1);
-        bod();
-        getch();
-    replay:
-        clrscr();
-        printf("\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t%c %c Playing....... %c %c\n", 14, 14, 14, 14);
-        gotoxy(1, 1);
-        bod();
-        for (i = 0;; i++)
-        {
+    menu();
+    gotoxy(54, 9);
+    printf("%c", 36);
 
-            if (a[i] == 'a' || a[i] == 'A')
+    for (y = 9;;)
+    {
+        if (kbhit())
+        {
+            opt = getch();
+            if (opt == DOWNARR && y != 15)
             {
-                sound(s);
-                delay(m);
-                nosound();
-                delay(100);
+                clrscr();
+                menu();
+                gotoxy(54, y + 2);
+                y += 2;
+                printf("%c", 36);
             }
-            if (a[i] == 's' || a[i] == 'S')
+            if (opt == UPARR && y != 9)
             {
-                sound(s1);
-                delay(m);
-                nosound();
-                delay(100);
+                clrscr();
+                menu();
+                gotoxy(54, y - 2);
+                y -= 2;
+                printf("%c", 36);
             }
-            if (a[i] == 'd' || a[i] == 'D')
-            {
-                sound(s2);
-                delay(m);
-                nosound();
-                delay(100);
-            }
-            if (a[i] == 'f' || a[i] == 'F')
-            {
-                sound(s3);
-                delay(m);
-                nosound();
-                delay(100);
-            }
-            if (a[i] == 'g' || a[i] == 'G')
-            {
-                sound(s4);
-                delay(m);
-                nosound();
-                delay(100);
-            }
-            if (a[i] == 'h' || a[i] == 'H')
-            {
-                sound(s5);
-                delay(m);
-                nosound();
-                delay(100);
-            }
-            if (a[i] == 'j' || a[i] == 'J')
-            {
-                sound(s6);
-                delay(m);
-                nosound();
-                delay(100);
-            }
-            if (a[i] == 'k' || a[i] == 'K')
-            {
-                sound(s7);
-                delay(m);
-                nosound();
-                delay(100);
-            }
-            if (a[i] == 'l' || a[i] == 'L')
-            {
-                sound(s8);
-                delay(m);
-                nosound();
-                delay(100);
-            }
-            if (i == t)
+            if (opt == 13)
                 break;
-        }
-        clrscr();
-        printf("\n\n\n\n\t\t\t\t  Clip Completed.\n\n\n\n\n\t\tEnter R To Here It Again.\n\n\t\tEnter B to Return To Menu.\n\n\t\tEnter Q To Exit.\n");
-        gotoxy(1, 1);
-        bod();
-        so = getch();
-        if (so == 'q' || so == 'Q')
-        {
-            i = 0;
-            memset(a, 0, 1000);
-            goto exit;
-        }
-        if (tolower(so) == 'r')
-            goto replay;
-        if ((so != 'q' || so != 'Q') || (so != 'r' || so != 'R'))
-        {
-            i = 0;
-            memset(a, 0, 1000);
-            goto menu;
         }
     }
-
-    if (opt == 'x' || opt == 'X')
+    switch (y)
+    {
+    case 9:
+        goto piano;
+    case 11:
+        goto settings;
+    case 13:
+        goto again;
+    case 15:
+        goto exit;
+    }
+again:
+    clrscr();
+    sounddef(s);
+    printf("\n\n\t     \t Piano is On Recording Mode!\n\n\t You Can Play Piano Using Keyboard Keys From A-L.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t Once completed Press T To Stop Recording.");
+    gotoxy(1, 1);
+    bod();
+    for (i = 0;; t++)
+    {
+        o = getch();
+        if (o == 'a' || o == 's' || o == 'd' || o == 'f' || o == 'g' || o == 'h' || o == 'j' || o == 'k' || o == 'l' || o == 'A' || o == 'S' || o == 'D' || o == 'F' || o == 'G' || o == 'H' || o == 'J' || o == 'K' || o == 'L')
+        {
+            a[i] = o;
+            i++;
+        }
+        player(o);
+        if (o == 't' || o == 'T')
+            break;
+    }
+    if (i == 0)
     {
         clrscr();
-        printf("\n\n\tEnter N to Change Time Seconds\n\n\tEnter V to Change Frquenzy Settins\n\n\tEnter R to Reset Default Settings.\n");
+        for (sss = 5; sss != 0; sss--)
+        {
+            gotoxy(20, 10);
+            printf("Nothing Recorded. Please Try Again In %d.", sss);
+            gotoxy(1, 1);
+            bod();
+            delay(1000);
+        }
+        goto again;
+    }
+    clrscr();
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\tSuccessfully Recorded. Press Enter To Here Your Recordings....");
+    gotoxy(1, 1);
+    bod();
+    getch();
+replay:
+    clrscr();
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t%c %c Playing....... %c %c\n", 14, 14, 14, 14);
+    gotoxy(1, 1);
+    bod();
+    for (i = 0;; i++)
+    {
+
+        if (a[i] == 'a' || a[i] == 'A')
+        {
+            sound(s);
+            delay(m);
+            nosound();
+            delay(100);
+        }
+        if (a[i] == 's' || a[i] == 'S')
+        {
+            sound(s1);
+            delay(m);
+            nosound();
+            delay(100);
+        }
+        if (a[i] == 'd' || a[i] == 'D')
+        {
+            sound(s2);
+            delay(m);
+            nosound();
+            delay(100);
+        }
+        if (a[i] == 'f' || a[i] == 'F')
+        {
+            sound(s3);
+            delay(m);
+            nosound();
+            delay(100);
+        }
+        if (a[i] == 'g' || a[i] == 'G')
+        {
+            sound(s4);
+            delay(m);
+            nosound();
+            delay(100);
+        }
+        if (a[i] == 'h' || a[i] == 'H')
+        {
+            sound(s5);
+            delay(m);
+            nosound();
+            delay(100);
+        }
+        if (a[i] == 'j' || a[i] == 'J')
+        {
+            sound(s6);
+            delay(m);
+            nosound();
+            delay(100);
+        }
+        if (a[i] == 'k' || a[i] == 'K')
+        {
+            sound(s7);
+            delay(m);
+            nosound();
+            delay(100);
+        }
+        if (a[i] == 'l' || a[i] == 'L')
+        {
+            sound(s8);
+            delay(m);
+            nosound();
+            delay(100);
+        }
+        if (i == t)
+            break;
+    }
+    clrscr();
+    printf("\n\n\n\n\t\t\t\t  Clip Completed.\n\n\n\n\n\t\tEnter R To Here It Again.\n\n\t\tEnter B to Return To Menu.\n\n\t\tEnter Q To Exit.\n");
+    gotoxy(1, 1);
+    bod();
+    so = getch();
+    if (so == 'q' || so == 'Q')
+    {
+        i = 0;
+        memset(a, 0, 1000);
+        goto exit;
+    }
+    if (tolower(so) == 'r')
+        goto replay;
+    if ((so != 'q' || so != 'Q') || (so != 'r' || so != 'R'))
+    {
+        i = 0;
+        memset(a, 0, 1000);
+        goto menu;
+    }
+
+    if (opt == 99) /*Shold Never Occur, Just to prevent malfunctoning og GOTO*/
+    {
+    settings:
+        clrscr();
+        printf("\n\n\tEnter N to Change Time Seconds\n\n\tEnter V to Change Frquenzy Settins\n\n\tEnter R to Reset Default Settings.\n\n\tPress B to Go Back.");
         gotoxy(1, 1);
         bod();
         op = getch();
+        if (tolower(op) == 'b')
+            goto menu;
         if (op == 'N' || op == 'n')
         {
             clrscr();
@@ -224,56 +265,58 @@ menu:
             getch();
             goto defaul;
         }
+        else
+            goto settings;
     }
     if (opt == 'Q' || opt == 'q')
         goto exit;
-piano:
-    sounddef(s);
-    clrscr();
-    printf("\n\n\t Piano is ON! You Can Play It Using Keyboard Keys From A-L.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t   Press B To Go Back. \n\n\t\t\t   Press Q to Exit.");
-    gotoxy(1, 1);
-    bod();
-    for (i = 0;; i++)
+    if (opt == 99) /*Shold Never Occur, Just to prevent malfunctoning og GOTO*/
     {
-        o = getch();
-        if (o == '\n')
-            exit(0);
-        player(o);
-        if (o == 'B' || o == 'b')
-            goto menu;
-        if (o == 'q' || o == 'Q')
-            goto exit;
-    }
-
-exit:
-    clrscr();
-    gotoxy(23, 10);
-    printf("Are You Sure You Want To Exit??  [Y/N]");
-    gotoxy(1, 1);
-    bod();
-h:
-    so = getch();
-    if (toupper(so) == 'Y')
-    {
+    piano:
+        sounddef(s);
         clrscr();
-        printf("\n\n\n\n\n\n\n\n\n\n\t\t\t\t     Bye\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\tBy Divins.");
+        printf("\n\n\t Piano is ON! You Can Play It Using Keyboard Keys From A-L.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t   Press B To Go Back. \n\n\t\t\t   Press Q to Exit.");
         gotoxy(1, 1);
         bod();
-        for (i = 3; i != -1; i--)
+        for (i = 0;; i++)
         {
-            gotoxy(44, 11);
-            printf("(%d)", i);
-            sleep(1);
+            o = getch();
+            player(o);
+            if (o == 'B' || o == 'b')
+                goto menu;
+            if (o == 'q' || o == 'Q')
+                goto exit;
         }
-        exit(0);
-    }
-    else if (toupper(so) == 'N')
-        goto menu;
-    else
-    {
-        gotoxy(16, 20);
-        printf("\t\tEnter 'Y' For Yes Or 'N' For No.");
-        goto h;
+    exit:
+        clrscr();
+        gotoxy(23, 10);
+        printf("Are You Sure You Want To Exit??  [Y/N]");
+        gotoxy(1, 1);
+        bod();
+    h:
+        so = getch();
+        if (toupper(so) == 'Y')
+        {
+            clrscr();
+            printf("\n\n\n\n\n\n\n\n\n\n\t\t\t\t     Bye\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\tBy Divins.");
+            gotoxy(1, 1);
+            bod();
+            for (i = 3; i != -1; i--)
+            {
+                gotoxy(44, 11);
+                printf("(%d)", i);
+                sleep(1);
+            }
+            exit(0);
+        }
+        else if (toupper(so) == 'N')
+            goto menu;
+        else
+        {
+            gotoxy(16, 20);
+            printf("\t\tEnter 'Y' For Yes Or 'N' For No.");
+            goto h;
+        }
     }
 }
 void sounddef(int s)
@@ -391,4 +434,10 @@ void bod(void)
         gotoxy(79, i + 2);
         printf("%c", 186);
     }
+}
+void menu(void)
+{
+    printf("\n\n\n\n\n\n\n\n\t\t\t Start Piano.\n\n\t\t\t Change Beep Settings.\n\n\t\t\t Enter Recording Mode.\n\n\t\t\t Exit.");
+    gotoxy(1, 1);
+    bod();
 }
