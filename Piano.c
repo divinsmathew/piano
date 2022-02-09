@@ -14,9 +14,9 @@ int m, s, s1, s2, s3, s4, s5, s6, s7, s8;
 void main()
 {
     FILE *sa1, *sa2, *sa3, *sa4, *sa5, *per1, *per2;
-    int r, y, y2, y3, y4, sss, c, i, tt, ft, fc, pr, sc, t, j, ff, sy, sys, n;
-    void sounddef(int), player(char), sig(void), bod(void), menu(int), recplayer(char), fplay(void), naam(char[20][5], int);
-    char opt, o, op, so, a[1000], rec[100], nam[50][5];
+    int l, r, y, y2, y3, y4, y5, sss, c, i, tt, ft, fc, pr, sc, t, j, ff, sy, sys, in, cou, n, em;
+    void sounddef(int), player(char), sig(void), bod(void), menu(int), recplayer(char), fplay(void), naam(char[5][50], int);
+    char opt, o, op, so, a[1000], rec[100], nam[5][50], temp[50][50], newn[50];
     textcolor(BROWN);
     clrscr();
     /* for(sc=0,pr=0;pr<=100;pr+=sc,sc+=2)
@@ -36,10 +36,12 @@ void main()
      printf("  PRESS ENTER!");
      getch();    */
 defaul:
+    /* if(sy!=-1)
+      for(l=0;l<5;l++)
+        remove(nam[l]);        /*/
     m = 100;
     s = 200;
-    y = 9;
-    y4 = 9;
+    y = y4 = y5 = 9;
     if (access("sta1.pi", 00) && access("sta2.pi", 00))
     {
         printf("first run");
@@ -53,7 +55,7 @@ defaul:
         fclose(per1);
         printf("%d", sy);
         per2 = fopen("sta2.pi", "r");
-        for (n = -1; n < sy; fscanf(per2, "%s", nam[n++]))
+        for (n = -1; n < sy; fscanf(per2, "%s", nam[++n]))
             ;
         fclose(per2);
         getch();
@@ -61,10 +63,7 @@ defaul:
 menu:
     clrscr();
     menu(1);
-    if (y != 9)
-        gotoxy(54, y);
-    else
-        gotoxy(54, 9);
+    gotoxy(54, y);
     printf("%c", 174);
     for (;;)
     {
@@ -75,16 +74,16 @@ menu:
             {
                 clrscr();
                 menu(1);
-                gotoxy(54, y + 2);
                 y += 2;
+                gotoxy(54, y);
                 printf("%c", 174);
             }
             if (opt == UPARR && y != 9)
             {
                 clrscr();
                 menu(1);
-                gotoxy(54, y - 2);
                 y -= 2;
+                gotoxy(54, y);
                 printf("%c", 174);
             }
             if (opt == 13)
@@ -114,7 +113,7 @@ menu:
         {
         fof:
             gotoxy(10, 10);
-            printf("No Recordings Available!! Press Any Key To Return.");
+            printf("\t  No Recordings Available!! Press Any Key To Return.");
             getch();
             goto menu;
         }
@@ -169,58 +168,297 @@ menu:
                     break;
             }
         }
+    otto:
+        clrscr();
+        menu(4);
+        gotoxy(54, y5);
+        printf("%c", 174);
+        for (;;)
+        {
+            if (kbhit())
+            {
+                opt = getch();
+                if (opt == DOWNARR && y5 != 15)
+                {
+                    clrscr();
+                    menu(4);
+                    y5 += 2;
+                    gotoxy(54, y5);
+                    printf("%c", 174);
+                }
+                if (opt == UPARR && y5 != 9)
+                {
+                    clrscr();
+                    menu(4);
+                    y5 -= 2;
+                    gotoxy(54, y5);
+                    printf("%c", 174);
+                }
+                if (opt == 13)
+                    break;
+            }
+        }
         switch (y4)
         {
         case 9:
-            sa1 = fopen(nam[0], "r");
-            flushall();
-            fscanf(sa1, "%s", rec);
-            fclose(sa1);
-            sounddef(s);
-            fplay();
-            for (fc = 0; fc < strlen(rec); fc++)
-                recplayer(rec[fc]);
-            goto play;
+            switch (y5)
+            {
+            case 9:
+                sa1 = fopen(nam[0], "r");
+                flushall();
+                fscanf(sa1, "%s", rec);
+                fclose(sa1);
+                sounddef(s);
+                fplay();
+                for (fc = 0; fc < strlen(rec); fc++)
+                    recplayer(rec[fc]);
+                goto otto;
+            case 11:
+                gotoxy(24, 23);
+                printf("Enter New Name: ");
+                gets(newn);
+                if (rename(nam[0], newn) == 0)
+                {
+                    strcpy(nam[0], newn);
+                    memset(newn, 0, 50);
+                    gotoxy(23, 23);
+                    printf("         Succesfully Renamed!                     ");
+                    sleep(1);
+                    delline();
+                }
+                goto otto;
+            case 13:
+                if (remove(nam[0]) == 0)
+                {
+                    gotoxy(23, 23);
+                    printf("         Succesfully Deleted!                     ");
+                    sleep(1);
+                }
+                for (cou = 0, in = 0; cou <= sy; cou++)
+                {
+                    if (cou != 0)
+                    {
+                        strcpy(temp[in], nam[cou]);
+                        in++;
+                    }
+                }
+                memset(nam, 0, sizeof(nam));
+                for (in = 0; in < sy; in++)
+                    strcpy(nam[in], temp[in]);
+                memset(temp, 0, sizeof(temp));
+                sy--;
+                goto play;
+            case 15:
+                goto play;
+            }
         case 11:
-            sa2 = fopen(nam[1], "r");
-            flushall();
-            fscanf(sa2, "%s", rec);
-            fclose(sa2);
-            sounddef(s);
-            fplay();
-            for (fc = 0; fc < strlen(rec); fc++)
-                recplayer(rec[fc]);
-            goto play;
+            switch (y5)
+            {
+            case 9:
+                sa2 = fopen(nam[1], "r");
+                flushall();
+                fscanf(sa2, "%s", rec);
+                fclose(sa2);
+                sounddef(s);
+                fplay();
+                for (fc = 0; fc < strlen(rec); fc++)
+                    recplayer(rec[fc]);
+                goto otto;
+            case 11:
+                gotoxy(24, 23);
+                printf("Enter New Name: ");
+                gets(newn);
+                if (rename(nam[1], newn) == 0)
+                {
+                    strcpy(nam[1], newn);
+                    memset(newn, 0, 50);
+                    gotoxy(23, 23);
+                    printf("         Succesfully Renamed!                  ");
+                    sleep(1);
+                    delline();
+                }
+                goto otto;
+            case 13:
+                if (remove(nam[1]) == 0)
+                {
+                    gotoxy(23, 23);
+                    printf("         Succesfully Deleted!                 ");
+                    sleep(1);
+                    delline();
+                }
+                for (cou = 0, in = 0; cou <= sy; cou++)
+                {
+                    if (cou != 1)
+                    {
+                        strcpy(temp[in], nam[cou]);
+                        in++;
+                    }
+                }
+                memset(nam, 0, sizeof(nam));
+                for (in = 0; in < sy; in++)
+                    strcpy(nam[in], temp[in]);
+                memset(temp, 0, sizeof(temp));
+                sy--;
+                goto play;
+            case 15:
+                goto play;
+            }
         case 13:
-            sa3 = fopen(nam[2], "r");
-            flushall();
-            fscanf(sa3, "%s", rec);
-            fclose(sa3);
-            sounddef(s);
-            fplay();
-            for (fc = 0; fc < strlen(rec); fc++)
-                recplayer(rec[fc]);
-            goto play;
+            switch (y5)
+            {
+            case 9:
+                sa3 = fopen(nam[2], "r");
+                flushall();
+                fscanf(sa3, "%s", rec);
+                fclose(sa3);
+                sounddef(s);
+                fplay();
+                for (fc = 0; fc < strlen(rec); fc++)
+                    recplayer(rec[fc]);
+                goto otto;
+            case 11:
+                gotoxy(24, 23);
+                printf("Enter New Name: ");
+                gets(newn);
+                if (rename(nam[2], newn) == 0)
+                {
+                    strcpy(nam[2], newn);
+                    memset(newn, 0, 50);
+                    gotoxy(23, 23);
+                    printf("         Succesfully Renamed!                  ");
+                    sleep(1);
+                    delline();
+                }
+                goto otto;
+            case 13:
+                if (remove(nam[2]) == 0)
+                {
+                    gotoxy(23, 23);
+                    printf("         Succesfully Deleted!                 ");
+                    sleep(1);
+                    delline();
+                }
+                for (cou = 0, in = 0; cou <= sy; cou++)
+                {
+                    if (cou != 2)
+                    {
+                        strcpy(temp[in], nam[cou]);
+                        in++;
+                    }
+                }
+                memset(nam, 0, sizeof(nam));
+                for (in = 0; in < sy; in++)
+                    strcpy(nam[in], temp[in]);
+                memset(temp, 0, sizeof(temp));
+                sy--;
+                goto play;
+            case 15:
+                goto play;
+            }
         case 15:
-            sa4 = fopen(nam[3], "r");
-            flushall();
-            fscanf(sa4, "%s", rec);
-            fclose(sa4);
-            sounddef(s);
-            fplay();
-            for (fc = 0; fc < strlen(rec); fc++)
-                recplayer(rec[fc]);
-            goto play;
+            switch (y5)
+            {
+            case 9:
+                sa4 = fopen(nam[3], "r");
+                flushall();
+                fscanf(sa4, "%s", rec);
+                fclose(sa4);
+                sounddef(s);
+                fplay();
+                for (fc = 0; fc < strlen(rec); fc++)
+                    recplayer(rec[fc]);
+                goto otto;
+            case 11:
+                gotoxy(24, 23);
+                printf("Enter New Name: ");
+                gets(newn);
+                if (rename(nam[3], newn) == 0)
+                {
+                    strcpy(nam[3], newn);
+                    memset(newn, 0, 50);
+                    gotoxy(23, 23);
+                    printf("         Succesfully Renamed!                  ");
+                    sleep(1);
+                    delline();
+                }
+                goto otto;
+            case 13:
+                if (remove(nam[3]) == 0)
+                {
+                    gotoxy(23, 23);
+                    printf("         Succesfully Deleted!                 ");
+                    sleep(1);
+                    delline();
+                }
+                for (cou = 0, in = 0; cou <= sy; cou++)
+                {
+                    if (cou != 3)
+                    {
+                        strcpy(temp[in], nam[cou]);
+                        in++;
+                    }
+                }
+                memset(nam, 0, sizeof(nam));
+                for (in = 0; in < sy; in++)
+                    strcpy(nam[in], temp[in]);
+                memset(temp, 0, sizeof(temp));
+                sy--;
+                goto play;
+            case 15:
+                goto play;
+            }
         case 17:
-            sa5 = fopen(nam[4], "r");
-            flushall();
-            fscanf(sa5, "%s", rec);
-            fclose(sa5);
-            sounddef(s);
-            fplay();
-            for (fc = 0; fc < strlen(rec); fc++)
-                recplayer(rec[fc]);
-            goto play;
+            switch (y5)
+            {
+            case 9:
+                sa5 = fopen(nam[4], "r");
+                flushall();
+                fscanf(sa5, "%s", rec);
+                fclose(sa5);
+                sounddef(s);
+                fplay();
+                for (fc = 0; fc < strlen(rec); fc++)
+                    recplayer(rec[fc]);
+                goto otto;
+            case 11:
+                gotoxy(24, 23);
+                printf("Enter New Name: ");
+                gets(newn);
+                if (rename(nam[4], newn) == 0)
+                {
+                    strcpy(nam[4], newn);
+                    memset(newn, 0, 50);
+                    gotoxy(23, 23);
+                    printf("         Succesfully Renamed!                  ");
+                    sleep(1);
+                    delline();
+                }
+                goto otto;
+            case 13:
+                if (remove(nam[4]) == 0)
+                {
+                    gotoxy(23, 23);
+                    printf("         Succesfully Deleted!                 ");
+                    sleep(1);
+                    delline();
+                }
+                for (cou = 0, in = 0; cou <= sy; cou++)
+                {
+                    if (cou != 4)
+                    {
+                        strcpy(temp[in], nam[cou]);
+                        in++;
+                    }
+                }
+                memset(nam, 0, sizeof(nam));
+                for (in = 0; in < sy; in++)
+                    strcpy(nam[in], temp[in]);
+                memset(temp, 0, sizeof(temp));
+                sy--;
+                goto play;
+            case 15:
+                goto play;
+            }
         }
     }
     if (opt == 99) /*Shold Never Occur, Just to prevent malfunctoning of GOTO*/
@@ -606,6 +844,11 @@ void menu(int o)
         printf("\n\n\n\n\t\t\t\t  Clip Completed.\n\n\n\n\n\n\t\t\t    Here It Again.\n\n\t\t\t    Save This Recording.\n\n\t\t\t    Return To Menu.\n\n\t\t\t    Exit.\n");
         gotoxy(1, 1);
         bod();
+        break;
+    case 4:
+        printf("\n\n\n\n\n\n\n\n\t\t\t Play This Recording.\n\n\t\t\t Rename This Recording.\n\n\t\t\t Delete This Recording\n\n\t\t\t Go Back.");
+        gotoxy(1, 1);
+        bod();
     }
 }
 void recplayer(char a)
@@ -682,7 +925,7 @@ void fplay(void)
     gotoxy(1, 1);
     bod();
 }
-void naam(char nam[50][5], int sy)
+void naam(char nam[5][50], int sy)
 {
     int j, i;
     gotoxy(13, 3);
