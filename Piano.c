@@ -13,28 +13,28 @@
 int m, s, s1, s2, s3, s4, s5, s6, s7, s8;
 void main()
 {
-    FILE *save;
-    int r, y, y2, y3, sss, c, i, tt, ft, fc, pr, sc, t;
-    void sounddef(int), player(char), sig(void), bod(void), menu(int), recplayer(char);
+    FILE *sa1, *sa2, *sa3, *sa4, *sa5;
+    int r, y, y2, y3, sss, c, i, tt, ft, fc, pr, sc, t, j, ff = 0;
+    void sounddef(int), player(char), sig(void), bod(void), menu(int), recplayer(char), fplay(void);
     char opt, o, op, so, a[1000], rec[100];
     textcolor(GREEN);
     clrscr();
-    for (sc = 0, pr = 0; pr <= 100; pr += sc, sc += 2)
-    {
-        bod();
-        if (sc > 19)
-            pr = 100;
-        gotoxy(5, 12);
-        printf("\t\t\t    LOADING PIANO.....%d%\n", pr);
-        if (sc > 19)
-            break;
-        sig();
-        if (pr == 100)
-            break;
-    }
-    gotoxy(31, 18);
-    printf("  PRESS ENTER!");
-    getch();
+    /* for(sc=0,pr=0;pr<=100;pr+=sc,sc+=2)
+     {
+      bod();
+      if(sc>19)
+       pr=100;
+      gotoxy(5,12);
+      printf("\t\t\t    LOADING PIANO.....%d%\n",pr);
+      if(sc>19)
+       break;
+      sig();
+      if(pr==100)
+       break;
+     }
+     gotoxy(31,18);
+     printf("  PRESS ENTER!");
+     getch();    */
 defaul:
     m = 100;
     s = 200;
@@ -81,32 +81,93 @@ menu:
     case 13:
         goto again;
     case 15:
-        memset(rec, 0, 100);
-        save = fopen("sav.pi", "r");
-        flushall();
-        fscanf(save, "%s", rec);
-        fclose(save);
-        sounddef(s);
-        for (fc = 0; fc < strlen(rec) - 1; fc++)
-            recplayer(rec[fc]);
-        goto menu;
+        goto play;
     case 17:
         goto exit;
     }
-again:
-    clrscr();
-    sounddef(s);
-    printf("\n\n\t\t\t   Piano is On Recording Mode!\n\n\n\t\t You Can Play Piano Using Keyboard Keys From A-L.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t\t Once completed Press Enter To Stop Recording.");
-    gotoxy(1, 1);
-    bod();
-    for (i = 0;;)
+    if (opt == 99) /*Shold Never Occur, Just to prevent malfunctoning of GOTO*/
     {
-        o = getch();
-        if (o == 'a' || o == 's' || o == 'd' || o == 'f' || o == 'g' || o == 'h' || o == 'j' || o == 'k' || o == 'l' || o == 'A' || o == 'S' || o == 'D' || o == 'F' || o == 'G' || o == 'H' || o == 'J' || o == 'K' || o == 'L')
-            a[i++] = o;
-        player(o);
-        if (o == 13)
-            break;
+    play:
+        clrscr();
+        gotoxy(1, 1);
+        bod();
+        gotoxy(15, 12);
+        memset(rec, 0, 100);
+        printf("Enter REC CODE:\t");
+        scanf("%d", &j);
+        switch (j)
+        {
+        case 1:
+            sa1 = fopen("sa1.pi", "r");
+            flushall();
+            fscanf(sa1, "%s", rec);
+            fclose(sa1);
+            sounddef(s);
+            fplay();
+            for (fc = 0; fc < strlen(rec); fc++)
+                recplayer(rec[fc]);
+            goto play;
+        case 2:
+            sa2 = fopen("sa2.pi", "r");
+            flushall();
+            fscanf(sa2, "%s", rec);
+            fclose(sa2);
+            sounddef(s);
+            fplay();
+            for (fc = 0; fc < strlen(rec); fc++)
+                recplayer(rec[fc]);
+            goto play;
+        case 3:
+            sa3 = fopen("sa3.pi", "r");
+            flushall();
+            fscanf(sa3, "%s", rec);
+            fclose(sa3);
+            sounddef(s);
+            fplay();
+            for (fc = 0; fc < strlen(rec); fc++)
+                recplayer(rec[fc]);
+            goto play;
+        case 4:
+            sa4 = fopen("sa4.pi", "r");
+            flushall();
+            fscanf(sa4, "%s", rec);
+            fclose(sa4);
+            sounddef(s);
+            fplay();
+            for (fc = 0; fc < strlen(rec); fc++)
+                recplayer(rec[fc]);
+            goto play;
+        case 5:
+            sa5 = fopen("sa5.pi", "r");
+            flushall();
+            fscanf(sa5, "%s", rec);
+            fclose(sa5);
+            sounddef(s);
+            fplay();
+            for (fc = 0; fc < strlen(rec); fc++)
+                recplayer(rec[fc]);
+            goto play;
+        default:
+            exit(0);
+        }
+    }
+    if (opt == 99)
+    {
+    again:
+        clrscr();
+        sounddef(s);
+        printf("\n\n\t\t\t   Piano is On Recording Mode!\n\n\n\t\t You Can Play Piano Using Keyboard Keys From A-L.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t\t Once completed Press Enter To Stop Recording.");
+        gotoxy(1, 1);
+        bod();
+        for (i = 0;;)
+        {
+            o = getch();
+            if (o == 'a' || o == 's' || o == 'd' || o == 'f' || o == 'g' || o == 'h' || o == 'j' || o == 'k' || o == 'l' || o == 'A' || o == 'S' || o == 'D' || o == 'F' || o == 'G' || o == 'H' || o == 'J' || o == 'K' || o == 'L')
+                a[i++] = o;
+            player(o);
+            if (o == 13)
+                break;
+        }
     }
     if (i == 0)
     {
@@ -127,10 +188,7 @@ again:
     bod();
     getch();
 replay:
-    clrscr();
-    printf("\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t%c %c Playing....... %c %c\n", 14, 14, 14, 14);
-    gotoxy(1, 1);
-    bod();
+    fplay();
     for (t = 0; t <= i; t++)
         recplayer(a[t]);
     y2 = 11;
@@ -172,14 +230,7 @@ smu:
     case 11:
         goto replay;
     case 13:
-        save = fopen("sav.pi", "w");
-        fprintf(save, "%s", a);
-        fclose(save);
-        gotoxy(31, 23);
-        printf("Succesfully Saved!");
-        sleep(1);
-        delline();
-        goto smu;
+        goto reco;
     case 15:
         i = 0;
         memset(a, 0, 1000);
@@ -188,6 +239,65 @@ smu:
         i = 0;
         memset(a, 0, 1000);
         goto exit;
+    }
+    if (opt == 99) /*Shold Never Occur, Just to prevent malfunctoning of GOTO*/
+    {
+    reco:
+        ff++;
+        switch (ff)
+        {
+        case 1:
+            sa1 = fopen("sa1.pi", "w");
+            fprintf(sa1, "%s", a);
+            fclose(sa1);
+            gotoxy(31, 23);
+            printf("Succesfully Saved!");
+            sleep(1);
+            delline();
+            goto smu;
+        case 2:
+            sa2 = fopen("sa2.pi", "w");
+            fprintf(sa2, "%s", a);
+            fclose(sa2);
+            gotoxy(31, 23);
+            printf("Succesfully Saved!");
+            sleep(1);
+            delline();
+            goto smu;
+        case 3:
+            sa3 = fopen("sa3.pi", "w");
+            fprintf(sa3, "%s", a);
+            fclose(sa3);
+            gotoxy(31, 23);
+            printf("Succesfully Saved!");
+            sleep(1);
+            delline();
+            goto smu;
+        case 4:
+            sa4 = fopen("sa4.pi", "w");
+            fprintf(sa4, "%s", a);
+            fclose(sa4);
+            gotoxy(31, 23);
+            printf("Succesfully Saved!");
+            sleep(1);
+            delline();
+            goto smu;
+        case 5:
+            sa5 = fopen("sa5.pi", "w");
+            fprintf(sa5, "%s", a);
+            fclose(sa5);
+            gotoxy(31, 23);
+            printf("Succesfully Saved!");
+            sleep(1);
+            delline();
+            goto smu;
+        default:
+            gotoxy(31, 23);
+            printf("LIMIT OF 5 REACHED!!");
+            sleep(1);
+            delline();
+            goto smu;
+        }
     }
     if (opt == 99) /*Shold Never Occur, Just to prevent malfunctoning of GOTO*/
     {
@@ -294,16 +404,17 @@ smu:
         so = getch();
         if (toupper(so) == 'Y')
         {
-            clrscr();
-            printf("\n\n\n\n\n\n\n\n\n\n\t\t\t\t     Bye\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\tBy Divins.");
-            gotoxy(1, 1);
-            bod();
-            for (i = -3; i != -1; i--)
-            {
-                gotoxy(44, 11);
-                printf("(%d)", i);
-                sleep(1);
-            }
+            /*
+             clrscr();
+             printf("\n\n\n\n\n\n\n\n\n\n\t\t\t\t     Bye\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\tBy Divins.");
+             gotoxy(1,1);
+             bod();
+             for(i=-3;i!=-1;i--)
+             {
+              gotoxy(44,11);
+              printf("(%d)",i);
+              sleep(1);
+             /*/
             exit(0);
         }
         else if (toupper(so) == 'N')
@@ -455,7 +566,6 @@ void menu(int o)
 void recplayer(char a)
 {
     int i;
-
     if (a == 'a' || a == 'A')
     {
         sound(s);
@@ -519,4 +629,11 @@ void recplayer(char a)
         nosound();
         delay(100);
     }
+}
+void fplay(void)
+{
+    clrscr();
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t%c %c Playing....... %c %c\n", 14, 14, 14, 14);
+    gotoxy(1, 1);
+    bod();
 }
