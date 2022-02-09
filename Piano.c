@@ -13,10 +13,10 @@
 int m, s, s1, s2, s3, s4, s5, s6, s7, s8;
 void main()
 {
-    FILE *sa1, *sa2, *sa3, *sa4, *sa5;
-    int r, y, y2, y3, y4, sss, c, i, tt, ft, fc, pr, sc, t, j, ff, sy, sys;
+    FILE *sa1, *sa2, *sa3, *sa4, *sa5, *per1, *per2;
+    int r, y, y2, y3, y4, sss, c, i, tt, ft, fc, pr, sc, t, j, ff, sy, sys, n;
     void sounddef(int), player(char), sig(void), bod(void), menu(int), recplayer(char), fplay(void), naam(char[20][5], int);
-    char opt, o, op, so, a[1000], rec[100], nam[20][5];
+    char opt, o, op, so, a[1000], rec[100], nam[50][5];
     textcolor(BROWN);
     clrscr();
     /* for(sc=0,pr=0;pr<=100;pr+=sc,sc+=2)
@@ -39,7 +39,25 @@ defaul:
     m = 100;
     s = 200;
     y = 9;
-    sy = -1;
+    y4 = 9;
+    if (access("sta1.pi", 00) && access("sta2.pi", 00))
+    {
+        printf("first run");
+        sy = -1;
+        getch();
+    }
+    else
+    {
+        per1 = fopen("sta1.pi", "r");
+        fscanf(per1, "%d", &sy);
+        fclose(per1);
+        printf("%d", sy);
+        per2 = fopen("sta2.pi", "r");
+        for (n = -1; n < sy; fscanf(per2, "%s", nam[n++]))
+            ;
+        fclose(per2);
+        getch();
+    }
 menu:
     clrscr();
     menu(1);
@@ -122,9 +140,9 @@ menu:
         default:
             goto fof;
         }
-        gotoxy(54, 9);
+        gotoxy(54, y4);
         printf("%c", 174);
-        for (y4 = 9;;)
+        for (;;)
         {
             if (kbhit())
             {
@@ -205,7 +223,7 @@ menu:
             goto play;
         }
     }
-    if (opt == 99)
+    if (opt == 99) /*Shold Never Occur, Just to prevent malfunctoning of GOTO*/
     {
     again:
         clrscr();
@@ -301,13 +319,13 @@ smu:
         if (sy < 4)
         {
             printf("Enter A Name: ");
-            scanf("%s", nam[++sy]);
+            gets(nam[++sy]);
             gotoxy(24, 76);
             sa1 = fopen(nam[sy], "w");
             fprintf(sa1, "%s", a);
             fclose(sa1);
             gotoxy(23, 23);
-            printf("         Succesfully Saved!");
+            printf("         Succesfully Saved!                             ");
             sleep(1);
             delline();
             goto smu;
@@ -434,7 +452,14 @@ smu:
               gotoxy(44,11);
               printf("(%d)",i);
               sleep(1);
-             /*/
+             */
+            per1 = fopen("sta1.pi", "w");
+            fprintf(per1, "%d", sy);
+            fclose(per1);
+            per2 = fopen("sta2.pi", "w");
+            for (i = -1; i < sy; fprintf(per2, "%s\n", nam[i++]))
+                ;
+            fclose(per2);
             exit(0);
         }
         else if (toupper(so) == 'N')
@@ -657,7 +682,7 @@ void fplay(void)
     gotoxy(1, 1);
     bod();
 }
-void naam(char nam[20][5], int sy)
+void naam(char nam[50][5], int sy)
 {
     int j, i;
     gotoxy(13, 3);
